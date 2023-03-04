@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3419538919809268584}
   m_Layer: 0
-  m_Name: CornerBlock
+  m_Name: CornerPiece
   m_TagString: HallwayBlock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
