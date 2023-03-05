@@ -39,7 +39,7 @@ public class MazePrinter : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.P))
         {
             //int[,] maze = mazeGenerator.CreateTestMaze();
-            Cell[,] cellMaze = mazeGenerator.CreateMaze(5, 5);
+            Cell[,] cellMaze = mazeGenerator.CreateMaze(24, 24);
             PrintMaze(cellMaze);
         }
 
