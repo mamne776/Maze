@@ -421,6 +421,7 @@ MonoBehaviour:
   basicHallWayPiece: {fileID: 2515995343988206293, guid: 1dccec0e1fe5731428ed93a93c35f0bb, type: 3}
   threeWallPiece: {fileID: 6864742643435712098, guid: 744b1df3500200d4d8b0df3300dad18b, type: 3}
   cornerPiece: {fileID: 489963134061046920, guid: 58943530bf9af0e4c818208a31abce51, type: 3}
+  straightHallway: {fileID: 2108468204069230284, guid: 4aefddfba8da6914cbed98115053b64c, type: 3}
   mazeGenerator: {fileID: 1614492127}
 --- !u!4 &1356001070
 Transform:

@@ -25,6 +25,7 @@ public class MazeGenerator : MonoBehaviour
         testMaze[1, 0] = 0;
         testMaze[1, 1] = 1;
         testMaze[1, 2] = 2;
+
         return testMaze;
     }
 
@@ -32,7 +33,7 @@ public class MazeGenerator : MonoBehaviour
     {
         Cell[,] testingMaze = new Cell[height, width];
         Cell firstCell = new Cell();
-        
+
         firstCell.heightPos = 0;
         firstCell.widthPos = 0;
         firstCell.walls[1] = false;
@@ -60,10 +61,31 @@ public class MazeGenerator : MonoBehaviour
         fourthCell.walls[3] = false;
         fourthCell.surroundingWalls = 2;
 
+        Cell fifthCell = new Cell()
+        {
+            heightPos = 0,
+            widthPos = 2
+        };
+        fifthCell.walls[0] = false;
+        fifthCell.walls[2] = false;
+        fifthCell.surroundingWalls = 2;
+
+        Cell sixthCell = new Cell()
+        {
+            heightPos = 1,
+            widthPos = 2
+        };
+        sixthCell.walls[1] = false;
+        sixthCell.walls[3] = false;
+        sixthCell.surroundingWalls = 2;
+        
+
         testingMaze[0, 0] = firstCell;
-        testingMaze[0, 1] = secondCell;
+        testingMaze[0, 1] = fifthCell;
         testingMaze[1, 0] = thirdCell;
         testingMaze[1, 1] = fourthCell;
+        testingMaze[0, 2] = secondCell;
+        testingMaze[1, 2] = sixthCell;
 
 
 

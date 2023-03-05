@@ -22,17 +22,5 @@ public class Cell
         neighbours = new List<Cell>();
         walls = new bool[4] { true, true, true, true }; //in the beginning the cell has all of its walls
         surroundingWalls = 4;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }    
+    }       
 }
