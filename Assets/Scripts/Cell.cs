@@ -10,7 +10,7 @@ public class Cell
     public int surroundingWalls;
     public bool hasBeenChecked;
     //neighbouring cells
-    public List<Cell> neighbours;
+    public Cell[] neighbours; //0 is left, 1 is up, 2 is right and 3 is down
 
     public bool[] walls; //true means that the cell has a wall in the corresponding edge, walls[0] = top edge, walls[1] = right etc. 
 
@@ -19,7 +19,7 @@ public class Cell
         widthPos = 0;
         heightPos = 0;
         hasBeenChecked = false;
-        neighbours = new List<Cell>();
+        neighbours = new Cell[4] { null, null, null, null };
         walls = new bool[4] { true, true, true, true }; //in the beginning the cell has all of its walls
         surroundingWalls = 4;
     }       
