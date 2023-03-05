@@ -334,7 +334,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2583788440040316780}
   m_Layer: 0
-  m_Name: TBlock
+  m_Name: ThreeWaypiece
   m_TagString: HallwayBlock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

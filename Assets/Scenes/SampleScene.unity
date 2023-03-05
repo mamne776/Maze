@@ -419,9 +419,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   basicHallWayPiece: {fileID: 2515995343988206293, guid: 1dccec0e1fe5731428ed93a93c35f0bb, type: 3}
-  threeWallPiece: {fileID: 6864742643435712098, guid: 744b1df3500200d4d8b0df3300dad18b, type: 3}
+  threeWayPiece: {fileID: 748551630285785228, guid: 76d3c62fdff9b704db03d367d0fb8b6e, type: 3}
   cornerPiece: {fileID: 489963134061046920, guid: 58943530bf9af0e4c818208a31abce51, type: 3}
   straightHallway: {fileID: 2108468204069230284, guid: 4aefddfba8da6914cbed98115053b64c, type: 3}
+  deadEndPiece: {fileID: 6864742643435712098, guid: 744b1df3500200d4d8b0df3300dad18b, type: 3}
+  crossingPiece: {fileID: 3432048156291900620, guid: 64918a74bf8e03d45b374ae2ae0521ed, type: 3}
   mazeGenerator: {fileID: 1614492127}
 --- !u!4 &1356001070
 Transform:

@@ -6,9 +6,11 @@ public class MazePrinter : MonoBehaviour
 {
     [Header("Blocks")]
     public GameObject basicHallWayPiece;
-    public GameObject threeWallPiece;
+    public GameObject threeWayPiece;
     public GameObject cornerPiece;
     public GameObject straightHallway;
+    public GameObject deadEndPiece;
+    public GameObject crossingPiece;
 
     [Header("MazeGenerator")]
     public MazeGenerator mazeGenerator;
@@ -23,7 +25,7 @@ public class MazePrinter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Application.targetFrameRate = 60; //noice reduction :D
+        Application.targetFrameRate = 30; //noice reduction :D
 
         faceLeftQ = Quaternion.Euler(0, -90, 0);
         faceRightQ = Quaternion.Euler(0, 90, 0);
@@ -37,9 +39,8 @@ public class MazePrinter : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.P))
         {
             //int[,] maze = mazeGenerator.CreateTestMaze();
-            Cell[,] cellMaze = mazeGenerator.CreateMaze(2,3);
+            Cell[,] cellMaze = mazeGenerator.CreateMaze(4,4);
             PrintMaze(cellMaze);
-
         }
 
         if (Input.GetKeyUp(KeyCode.D))
@@ -63,12 +64,17 @@ public class MazePrinter : MonoBehaviour
                 {
                     //no walls, ie. a crossing
                     case 0:
-                        GameObject.Instantiate(basicHallWayPiece, new Vector3(j * 8f, 0, i * 8f), Quaternion.identity);
+                        GameObject.Instantiate(crossingPiece, new Vector3(j * 8f, 0, i * 8f), Quaternion.identity);
                         break;
 
                     //one wall
                     case 1:
-                        GameObject.Instantiate(threeWallPiece, new Vector3(j * 8f, 0, i * 8f), Quaternion.identity);
+                        if (givenMaze[i, j].walls[0] == true) q = faceRightQ;
+                        if (givenMaze[i, j].walls[1] == true) q = faceDownQ;
+                        if (givenMaze[i, j].walls[2] == true) q = faceLeftQ;
+                        if (givenMaze[i, j].walls[3] == true) q = faceUpQ;
+
+                        GameObject.Instantiate(threeWayPiece, new Vector3(j * 8f, 0, i * 8f), q);
                         break;
 
                     //two walls
@@ -84,6 +90,7 @@ public class MazePrinter : MonoBehaviour
                             GameObject.Instantiate(straightHallway, new Vector3(j * 8f, 0, i * 8f), faceUpQ);
                             break;
                         }
+
                         //corner pieces
                         //no wall left and top
                         if (givenMaze[i, j].walls[0] == false && givenMaze[i, j].walls[1] == false) q = faceLeftQ;
@@ -93,9 +100,21 @@ public class MazePrinter : MonoBehaviour
                         if (givenMaze[i, j].walls[2] == false && givenMaze[i, j].walls[3] == false) q = faceRightQ;
                         //no wall bottom and left
                         if (givenMaze[i, j].walls[3] == false && givenMaze[i, j].walls[0] == false) q = faceDownQ;
+                       
                         GameObject.Instantiate(cornerPiece, new Vector3(j * 8f, 0, i * 8f), q);
-                        break;  
-                        
+                        break;
+
+                    case 3:
+                        //deadend
+                        if (givenMaze[i, j].walls[0] == false) q = faceLeftQ;
+                        if (givenMaze[i, j].walls[1] == false) q = faceUpQ;
+                        if (givenMaze[i, j].walls[2] == false) q = faceRightQ;
+                        if (givenMaze[i, j].walls[3] == false) q = faceDownQ;
+
+                        GameObject.Instantiate(deadEndPiece, new Vector3(j * 8f, 0, i * 8f), q);
+
+                        break;
+
                     //four walls, ie. a solid block
                     case 4:
                         GameObject.Instantiate(basicHallWayPiece, new Vector3(j * 8f, 0, i * 8f), Quaternion.identity);

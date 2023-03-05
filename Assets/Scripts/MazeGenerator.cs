@@ -31,6 +31,66 @@ public class MazeGenerator : MonoBehaviour
 
     public Cell[,] CreateMaze(int height, int width)
     {
+        //Cell[,] maze = new Cell[height, width];
+
+        Cell[,] maze = CreateMazeWithOnlyWalls(height, width);
+
+
+
+        //for testing
+        maze[0, 0].surroundingWalls = 3;
+        maze[0, 0].walls[2] = false;
+
+        maze[0, 1].surroundingWalls = 2;
+        maze[0, 1].walls[0] = false;
+        maze[0, 1].walls[2] = false;
+
+        maze[0, 2].surroundingWalls = 1;
+        maze[0, 2].walls[0] = false;
+        maze[0, 2].walls[1] = false;
+        maze[0, 2].walls[2] = false;
+
+        maze[0, 3].surroundingWalls = 3;
+        maze[0, 3].walls[0] = false;
+
+        maze[1, 0].surroundingWalls = 3;
+        maze[1, 0].walls[2] = false;
+
+        maze[1, 1].surroundingWalls = 2;
+        maze[1, 1].walls[0] = false;
+        maze[1, 1].walls[1] = false;
+
+        maze[1, 2].surroundingWalls = 1;
+        maze[1, 2].walls[1] = false;
+        maze[1, 2].walls[2] = false;
+        maze[1, 2].walls[3] = false;
+
+        maze[1, 3].surroundingWalls = 2;
+        maze[1, 3].walls[0] = false;
+        maze[1, 3].walls[1] = false;
+
+        maze[2, 0].surroundingWalls = 3;
+        maze[2, 0].walls[2] = false;
+
+        maze[2, 1].surroundingWalls = 0;
+        //maze[2, 1].walls[0] = false;
+        //maze[2, 1].walls[2] = false;
+        //maze[2, 1].walls[3] = false;
+
+        maze[2, 2].surroundingWalls = 2;
+        maze[2, 2].walls[0] = false;
+        maze[2, 2].walls[3] = false;
+
+        maze[2, 3].surroundingWalls = 3;
+        maze[2, 3].walls[3] = false;
+
+        maze[3, 1].surroundingWalls = 3;
+        maze[3, 1].walls[3] = false;
+
+
+        return maze;
+
+        /*
         Cell[,] testingMaze = new Cell[height, width];
         Cell firstCell = new Cell();
 
@@ -87,9 +147,22 @@ public class MazeGenerator : MonoBehaviour
         testingMaze[0, 2] = secondCell;
         testingMaze[1, 2] = sixthCell;
 
-
-
         return testingMaze;
+        */
     }
 
+    //create maze full of walls
+    private Cell[,] CreateMazeWithOnlyWalls(int h, int w) //h = height, w = width
+    {
+        Cell[,] maze = new Cell[h, w];
+        for (int i = 0; i < h; i++)
+        {
+            for (int j = 0; j < w; j++)
+            {
+                Cell cell = new Cell() {heightPos = i, widthPos = j};
+                maze[i, j] = cell;
+            }
+        }
+        return maze;
+    }
 }
