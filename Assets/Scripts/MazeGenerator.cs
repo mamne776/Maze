@@ -44,8 +44,11 @@ public class MazeGenerator : MonoBehaviour
         int randW = Random.Range(0, width);
         Cell cell = maze[randH, randW];
 
-        Debug.Log("cell pos:" + cell.heightPos + ", " + cell.widthPos);
+        //Debug.Log("cell pos:" + cell.heightPos + ", " + cell.widthPos);
 
+        MakePaths(cell);
+
+        /*
         //mark this cell as checked
         cell.hasBeenChecked = true;
 
@@ -99,6 +102,7 @@ public class MazeGenerator : MonoBehaviour
             //remove the wall between cell and neighbour
             RemoveWallBetween(cell, cell.neighbours[fourth]);
         }
+        */
 
         /*
         //add the neighbours to the list of Cells we still need to check
@@ -233,6 +237,134 @@ public class MazeGenerator : MonoBehaviour
         maze[3, 1].walls[3] = false;
         */
         return maze;
+    }
+
+    private void MakePaths(Cell cell)
+    {
+        //mark this cell as checked
+        cell.hasBeenChecked = true;
+
+        //get a list of its neighbours
+        SetNeighbours(cell);
+
+        //For each neighbor, starting with a randomly selected neighbor:
+        //If that neighbor hasn't been visited,
+        //remove the wall between this cell and that neighbor,
+        //and then recurse with that neighbor as the current cell.        
+
+        List<int> orderNumbers = new List<int>();
+
+        int amountOfNeighbours = 0;
+        for (int i = 0; i < 4; i++)
+        {
+            if (cell.neighbours[i] != null)
+            {
+                amountOfNeighbours++;
+            }
+        }
+
+        if (amountOfNeighbours == 2)
+        {
+            orderNumbers = new List<int>() { 0, 1 };
+        }
+
+        if (amountOfNeighbours == 3)
+        {
+            orderNumbers = new List<int>() { 0, 1, 2 };
+        }
+
+        if (amountOfNeighbours == 4)
+        {
+            orderNumbers = new List<int>() { 0, 1, 2, 3 }; 
+        }
+
+        //for each neighbour, starting with randomly selected neighbour
+        int randomForFirst = 0;
+        if (amountOfNeighbours == 2)
+        {
+            randomForFirst = Random.Range(0, 2);
+        }
+        if (amountOfNeighbours == 3)
+        {
+            randomForFirst = Random.Range(0, 3);
+        }
+        if (amountOfNeighbours == 4)
+        {
+            randomForFirst = Random.Range(0, 4);
+        }
+
+        //pick first neighbour
+        int first = orderNumbers[randomForFirst];
+        //remove the orderNumber from the list
+        orderNumbers.RemoveAt(randomForFirst);
+
+        Debug.Log(cell.heightPos + ", " + cell.widthPos);
+        Debug.Log("first: " + first);
+        Debug.Log("cell.neighbours[first]: " + cell.neighbours[first]);
+
+        Debug.Log("cell.neighbour[first]: " + cell.neighbours[first].heightPos + ", " + cell.neighbours[first].widthPos);
+        //Debug.Log("cell.neighbours[first].hasBeenChecked: " + cell.neighbours[first].hasBeenChecked);
+        //Debug.Log("cell.neighbours[first] != null: " + (cell.neighbours[first] != null).ToString());
+
+        if (cell.neighbours[first] != null)
+        {
+            if (!cell.neighbours[first].hasBeenChecked && cell.neighbours[first] != null)
+            {
+                //remove the wall between cell and neighbour
+                RemoveWallBetween(cell, cell.neighbours[first]);
+                //MakePaths(cell.neighbours[first]);
+            } 
+        }
+
+        //pick second
+        int randomForSecond = Random.Range(0, 3);
+        int second = orderNumbers[randomForSecond];
+        orderNumbers.RemoveAt(randomForSecond);
+        Debug.Log("Second: " + second);
+        if (cell.neighbours[second] != null)
+        {
+            if (!cell.neighbours[second].hasBeenChecked && cell.neighbours[second] != null)
+            {
+                //remove the wall between cell and neighbour
+                RemoveWallBetween(cell, cell.neighbours[second]);
+                //MakePaths(cell.neighbours[second]);
+            } 
+        }
+
+        Debug.Log("amount of neighbours: " + amountOfNeighbours);
+        if (amountOfNeighbours > 2)
+        {
+            //pick third
+            int randomForThird = Random.Range(0, 2);
+            int third = orderNumbers[randomForThird];
+            Debug.Log("Third: " + third);
+            if (cell.neighbours[third] != null)
+            {
+                orderNumbers.RemoveAt(randomForThird);
+                if (!cell.neighbours[third].hasBeenChecked && cell.neighbours[third] != null)
+                {
+                    //remove the wall between cell and neighbour
+                    RemoveWallBetween(cell, cell.neighbours[third]);
+                    //MakePaths(cell.neighbours[third]);
+                }  
+            }
+        }
+
+        if (amountOfNeighbours > 3)
+        {
+            //pick last
+            int fourth = orderNumbers[0];
+            if (cell.neighbours[fourth] != null)
+            {
+                if (!cell.neighbours[fourth].hasBeenChecked && cell.neighbours[fourth] != null)
+                {
+                    //remove the wall between cell and neighbour
+                    RemoveWallBetween(cell, cell.neighbours[fourth]);
+                    //MakePaths(cell.neighbours[fourth]);
+                }  
+            }
+        }
+        Debug.Log("Reached here!");
     }
 
     private void RemoveWallBetween(Cell cell, Cell neighbourCell)
