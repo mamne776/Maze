@@ -20,7 +20,8 @@ public class Cell
         heightPos = 0;
         hasBeenChecked = false;
         neighbours = new Cell[4] { null, null, null, null };
-        walls = new bool[4] { true, true, true, true }; //in the beginning the cell has all of its walls
+        //in the beginning the cell has all of its walls
+        walls = new bool[4] { true, true, true, true };
         surroundingWalls = 4;
     }       
 }

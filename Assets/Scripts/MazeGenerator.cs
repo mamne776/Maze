@@ -8,6 +8,7 @@ public class MazeGenerator : MonoBehaviour
 
     public Cell[,] CreateMaze(int height, int width)
     {
+        //start with all the walls
         maze = CreateMazeWithOnlyWalls(height, width);
 
         //Start at a random cell
@@ -22,9 +23,9 @@ public class MazeGenerator : MonoBehaviour
 
     private void MakePaths(Cell cell)
     {
-        //neighbourNumbers consists of the neighbours the cell has. 0 = neighbour to the left, 1 = above
+        //allowdNeighbourNumbers consists of the neighbours the cell has. 0 = neighbour to the left, 1 = above
         //2 = to the right and 3 is below
-        List<int> neighbourNumbers = new List<int>();
+        List<int> allowedNeighbourNumbers = new List<int>();
 
         //how many neighbours the cell has
         int amountOfNeighbours = 0;
@@ -32,38 +33,38 @@ public class MazeGenerator : MonoBehaviour
         //mark this cell as checked
         cell.hasBeenChecked = true;
 
-        //get a list of its neighbours
-        SetNeighbours(cell);        
+        //set the cells neighbours
+        SetNeighbours(cell);
+
+        //check how many neighbours and add the neighbours to the list
+        for (int i = 0; i < 4; i++)
+        {
+            if (cell.neighbours[i] != null)
+            {
+                allowedNeighbourNumbers.Add(i);
+                amountOfNeighbours++;
+            }
+        }
 
         //For each neighbor, starting with a randomly selected neighbor:
         //If that neighbor hasn't been visited,
         //remove the wall between this cell and that neighbor,
         //and then recurse with that neighbor as the current cell.
 
-        //check how many neighbours and add the neighbours to the list
-        for (int i = 0; i < 4; i++)
-        {
-            if (cell.neighbours[i] != null)
-            {              
-                neighbourNumbers.Add(i);
-                amountOfNeighbours++;
-            }
-        }
-
         //for all the neighbours,
         for (int i = 0; i < amountOfNeighbours; i++)
         {
             //choose random neighbour, and remove it from the list
             int randomIndex = Random.Range(0, amountOfNeighbours - i);
-            int checkThisNeighbour = neighbourNumbers[randomIndex];
-            neighbourNumbers.RemoveAt(randomIndex);
+            int checkThisNeighbour = allowedNeighbourNumbers[randomIndex];
+            allowedNeighbourNumbers.RemoveAt(randomIndex);
 
             //if not checked yet
             if (!cell.neighbours[checkThisNeighbour].hasBeenChecked)
             {
                 //remove the wall between the cells
                 RemoveWallBetween(cell, cell.neighbours[checkThisNeighbour]);
-                //and recurse
+                //and recurse with this neighbour
                 MakePaths(cell.neighbours[checkThisNeighbour]);
             }
         }
@@ -117,25 +118,25 @@ public class MazeGenerator : MonoBehaviour
 
         //neighbours[0] means the neighbour to the left, [1] is the one above, [2] to the right and [4] below
 
-        //cells on the h = 0 row have no neighbours at h - 1
-        if (h > 0)
-        {
-            cellToCheck.neighbours[3] = maze[h - 1, w];
-        }
-        //cells on the h = (maze.height - 1) row have no neighbours at h + 1
-        if (h < maze.GetLength(0) - 1)
-        {
-            cellToCheck.neighbours[1] = maze[h + 1, w];
-        }
         //cells on the w = 0 column have no neighbours at w - 1
         if (w > 0)
         {
             cellToCheck.neighbours[0] = maze[h, w - 1];
         }
+        //cells on the h = (maze.height - 1) row have no neighbours at h + 1
+        if (h < maze.GetLength(0) - 1)
+        {
+            cellToCheck.neighbours[1] = maze[h + 1, w];
+        }        
         //cells on the w = maze.width column hace no neighbours at w + 1
         if (w < maze.GetLength(1) - 1)
         {
             cellToCheck.neighbours[2] = maze[h, w + 1];
+        }
+        //cells on the h = 0 row have no neighbours at h - 1
+        if (h > 0)
+        {
+            cellToCheck.neighbours[3] = maze[h - 1, w];
         }
     }
 
