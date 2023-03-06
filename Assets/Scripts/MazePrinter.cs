@@ -21,7 +21,6 @@ public class MazePrinter : MonoBehaviour
     private Quaternion faceDownQ;
     private Quaternion faceUpQ;
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -38,8 +37,7 @@ public class MazePrinter : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.P))
         {
-            //int[,] maze = mazeGenerator.CreateTestMaze();
-            Cell[,] cellMaze = mazeGenerator.CreateMaze(30, 30);
+            Cell[,] cellMaze = mazeGenerator.CreateMaze(32, 32);
             PrintMaze(cellMaze);
         }
 
