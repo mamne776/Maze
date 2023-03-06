@@ -4,32 +4,7 @@ using UnityEngine;
 
 public class MazeGenerator : MonoBehaviour
 {
-    public Cell[,] maze;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    public int[,] CreateTestMaze()
-    {
-        int[,] testMaze = new int[2, 3];
-        testMaze[0, 0] = 0;
-        testMaze[0, 1] = 1;
-        testMaze[0, 2] = 2;
-        testMaze[1, 0] = 0;
-        testMaze[1, 1] = 1;
-        testMaze[1, 2] = 2;
-
-        return testMaze;
-    }
+    public Cell[,] maze;  
 
     public Cell[,] CreateMaze(int height, int width)
     {
@@ -47,87 +22,49 @@ public class MazeGenerator : MonoBehaviour
 
     private void MakePaths(Cell cell)
     {
+        //neighbourNumbers consists of the neighbours the cell has. 0 = neighbour to the left, 1 = above
+        //2 = to the right and 3 is below
+        List<int> neighbourNumbers = new List<int>();
+
+        //how many neighbours the cell has
+        int amountOfNeighbours = 0;
+
         //mark this cell as checked
         cell.hasBeenChecked = true;
 
         //get a list of its neighbours
-        SetNeighbours(cell);
+        SetNeighbours(cell);        
 
         //For each neighbor, starting with a randomly selected neighbor:
         //If that neighbor hasn't been visited,
         //remove the wall between this cell and that neighbor,
-        //and then recurse with that neighbor as the current cell.        
+        //and then recurse with that neighbor as the current cell.
 
-        List<int> neighbourNumbers = new List<int>();
-
-        int amountOfNeighbours = 0;
+        //check how many neighbours and add the neighbours to the list
         for (int i = 0; i < 4; i++)
         {
             if (cell.neighbours[i] != null)
-            {
-                amountOfNeighbours++;
-                //neighbournumbers consists of the neighbours the cell has. 0 = neighbour to the left, 1 = above
-                //2 = to the right and 3 is below
+            {              
                 neighbourNumbers.Add(i);
+                amountOfNeighbours++;
             }
         }
 
-        //for each neighbour, starting with randomly selected neighbour
-        int randomIndexForChoosingFirst;
-
-        randomIndexForChoosingFirst = Random.Range(0, amountOfNeighbours);
-
-        //pick first neighbour
-        int first = neighbourNumbers[randomIndexForChoosingFirst];
-
-        //remove the orderNumber from the list
-        neighbourNumbers.RemoveAt(randomIndexForChoosingFirst);
-
-
-        if (!cell.neighbours[first].hasBeenChecked/* && cell.neighbours[first] != null*/)
+        //for all the neighbours,
+        for (int i = 0; i < amountOfNeighbours; i++)
         {
-            //remove the wall between cell and neighbour
-            RemoveWallBetween(cell, cell.neighbours[first]);
-            MakePaths(cell.neighbours[first]);
-        }
+            //choose random neighbour, and remove it from the list
+            int randomIndex = Random.Range(0, amountOfNeighbours - i);
+            int checkThisNeighbour = neighbourNumbers[randomIndex];
+            neighbourNumbers.RemoveAt(randomIndex);
 
-        //pick second
-        int randomForSecond = Random.Range(0, amountOfNeighbours - 1);
-        int second = neighbourNumbers[randomForSecond];
-        neighbourNumbers.RemoveAt(randomForSecond);
-
-        if (!cell.neighbours[second].hasBeenChecked)
-        {
-            //remove the wall between cell and neighbour
-            RemoveWallBetween(cell, cell.neighbours[second]);
-            MakePaths(cell.neighbours[second]);
-        }
-
-        if (amountOfNeighbours > 2)
-        {
-            //pick third
-            int randomForThird = Random.Range(0, amountOfNeighbours - 2);
-            int third = neighbourNumbers[randomForThird];
-
-            neighbourNumbers.RemoveAt(randomForThird);
-            if (!cell.neighbours[third].hasBeenChecked)
+            //if not checked yet
+            if (!cell.neighbours[checkThisNeighbour].hasBeenChecked)
             {
-                //remove the wall between cell and neighbour
-                RemoveWallBetween(cell, cell.neighbours[third]);
-                MakePaths(cell.neighbours[third]);
-            }
-        }
-
-        if (amountOfNeighbours > 3)
-        {
-            //pick last
-            int fourth = neighbourNumbers[0];
-
-            if (!cell.neighbours[fourth].hasBeenChecked)
-            {
-                //remove the wall between cell and neighbour
-                RemoveWallBetween(cell, cell.neighbours[fourth]);
-                MakePaths(cell.neighbours[fourth]);
+                //remove the wall between the cells
+                RemoveWallBetween(cell, cell.neighbours[checkThisNeighbour]);
+                //and recurse
+                MakePaths(cell.neighbours[checkThisNeighbour]);
             }
         }
     }
