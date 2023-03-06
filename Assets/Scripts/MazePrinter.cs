@@ -25,7 +25,7 @@ public class MazePrinter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Application.targetFrameRate = 30; //noice reduction :D
+        Application.targetFrameRate = 30; //noise reduction :D
 
         faceLeftQ = Quaternion.Euler(0, -90, 0);
         faceRightQ = Quaternion.Euler(0, 90, 0);
@@ -39,7 +39,7 @@ public class MazePrinter : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.P))
         {
             //int[,] maze = mazeGenerator.CreateTestMaze();
-            Cell[,] cellMaze = mazeGenerator.CreateMaze(24, 24);
+            Cell[,] cellMaze = mazeGenerator.CreateMaze(30, 30);
             PrintMaze(cellMaze);
         }
 
@@ -112,7 +112,6 @@ public class MazePrinter : MonoBehaviour
                         if (givenMaze[i, j].walls[3] == false) q = faceDownQ;
 
                         GameObject.Instantiate(deadEndPiece, new Vector3(j * 8f, 0, i * 8f), q);
-
                         break;
 
                     //four walls, ie. a solid block
@@ -120,23 +119,9 @@ public class MazePrinter : MonoBehaviour
                         GameObject.Instantiate(basicHallWayPiece, new Vector3(j * 8f, 0, i * 8f), Quaternion.identity);
                         break;
 
-
                     default:
                     break;
                 }
-
-                /*
-                if (givenMaze[i, j] == 0)
-                {
-                    GameObject.Instantiate(basicHallWayPiece, new Vector3(j * 8f, 0, i * 8f), Quaternion.identity);
-                }
-
-                if (givenMaze[i,j] == 1)
-                {
-                    GameObject.Instantiate(cornerPiece, new Vector3(j * 8f, 0, i * 8f), Quaternion.identity);
-                }
-                */
-                //GameObject.Instantiate(BasicHallWayPiece, new Vector3(j * 8f, 0, i * 8f), Quaternion.identity);
             }
         }
     }
