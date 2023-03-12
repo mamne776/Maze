@@ -407,13 +407,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.36456499, y: -0, z: -0, w: 0.931178}
-  m_LocalPosition: {x: 116.9, y: 139.7, z: -60.7}
+  m_LocalRotation: {x: 0.4694715, y: 0, z: 0, w: 0.8829476}
+  m_LocalPosition: {x: 60, y: 70, z: -18}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 42.762, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 56, y: 0, z: 0}
 --- !u!114 &963194229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -532,12 +532,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59ed6691a25fa5b478f44e75e69b71ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  basicHallWayPiece: {fileID: 8702144402707107281, guid: 7e07d70dc1a31104d8f68fb8d5bcfbb1, type: 3}
+  basicHallWayPiece: {fileID: 8702144402707107281, guid: 3efd57d8444819446964c9f98006c383, type: 3}
   threeWayPiece: {fileID: 7397924824383367453, guid: d28e407ce25f2904b819ed31642b1f69, type: 3}
-  cornerPiece: {fileID: 6997678796497391385, guid: efcf5f1d822fd5d40b350b4b4a46fd46, type: 3}
+  cornerPiece: {fileID: 6997678796497391385, guid: 7a41f12db9e113a40b64fe56a9fe15c7, type: 3}
   straightHallway: {fileID: 4859210144938502199, guid: 3e681380732abb845b10d5975c67e80e, type: 3}
-  deadEndPiece: {fileID: 4988199262035289037, guid: 6853511355268974dabd02b959289542, type: 3}
+  deadEndPiece: {fileID: 4988199262035289037, guid: 122d535ac42a5634db23dcccbb211b5e, type: 3}
   crossingPiece: {fileID: 2162931128237583795, guid: 14d6fe57ed970c845a3a90fbe70b7205, type: 3}
+  room: {fileID: 0}
   mazeGenerator: {fileID: 1614492127}
 --- !u!4 &1356001070
 Transform:
