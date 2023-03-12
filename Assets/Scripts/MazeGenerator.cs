@@ -21,6 +21,27 @@ public class MazeGenerator : MonoBehaviour
         return maze;
     }
 
+    public Cell[,] CreateMazeWithRooms(int height, int width)
+    {
+        //start with all the walls
+        maze = CreateMazeWithOnlyWalls(height, width);
+
+
+
+
+        //Start at a random cell
+        int randH = Random.Range(0, height);
+        int randW = Random.Range(0, width);
+        Cell cell = maze[randH, randW];
+
+        MakePaths(cell);
+
+        return maze;
+
+
+
+    }
+
     private void MakePaths(Cell cell)
     {
         //allowdNeighbourNumbers consists of the neighbours the cell has. 0 = neighbour to the left, 1 = above

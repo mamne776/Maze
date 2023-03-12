@@ -12,6 +12,9 @@ public class MazePrinter : MonoBehaviour
     public GameObject deadEndPiece;
     public GameObject crossingPiece;
 
+    [Header("Rooms")]
+    public GameObject room;
+
     [Header("MazeGenerator")]
     public MazeGenerator mazeGenerator;
 
@@ -37,13 +40,19 @@ public class MazePrinter : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.P))
         {
-            Cell[,] cellMaze = mazeGenerator.CreateMaze(30, 30);
+            Cell[,] cellMaze = mazeGenerator.CreateMaze(12, 16);
             PrintMaze(cellMaze);
         }
 
         if (Input.GetKeyUp(KeyCode.D))
         {
             DestroyMaze();            
+        }
+
+        if (Input.GetKeyUp(KeyCode.R))
+        {
+            Cell[,] mazeWithRooms = mazeGenerator.CreateMazeWithRooms(12, 12);
+            PrintMaze(mazeWithRooms);
         }
     }
 
