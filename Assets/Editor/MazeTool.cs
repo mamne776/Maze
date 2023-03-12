@@ -40,9 +40,10 @@ public class MazeTool : EditorWindow
         {
             SpawnBlock();
         }
-        if (GUILayout.Button("Test Button"))
+        if (GUILayout.Button("Show in Scene"))
         {
-            Debug.Log("Test Button pressed");
+            ShowInScene();
+            //Debug.Log("Test Button pressed");
         }
         if (GUILayout.Button("Test Button 2"))
         {
@@ -50,6 +51,7 @@ public class MazeTool : EditorWindow
         }
         GUILayout.EndHorizontal();
 
+        //Display the block we are spawning
         if (blockToSpawn != null)
         {
             if (editor == null)
@@ -58,15 +60,6 @@ public class MazeTool : EditorWindow
             }
             editor.OnInteractivePreviewGUI(GUILayoutUtility.GetRect(256, 256), bgColor);
         }
-
-        /*
-        var view = new ObjectPreview();
-        Rect r = new Rect(0, 0, 30, 30);
-
-        view.DrawPreview(r);
-        */
-
-
     }
 
     private void SpawnBlock()
@@ -87,6 +80,20 @@ public class MazeTool : EditorWindow
         newBlock.name = objectBaseName + objectID;
 
         objectID++;
+    }
+
+    private void ShowInScene()
+    {
+        if (blockToSpawn == null)
+        {
+            Debug.Log("Assign block to be spawned");
+            return;
+        }
+
+        Vector3 spawnPos = new Vector3(xCoord * 8f, 0, zCoord * 8);
+        GameObject newBlock = Instantiate(blockToSpawn, spawnPos, Quaternion.identity);
+        //newBlock.GetComponents<Shader>().
+
     }
 
 
