@@ -114,6 +114,16 @@ public class MazeTool : EditorWindow
             //editor.DrawPreview(GUILayoutUtility.GetRect(256, 256));
         }
 
+        if (GUILayout.Button("Save changes to tool"))
+        {
+            SaveChanges();
+        }
+
+        if (GUILayout.Button("Load tool"))
+        {
+            //
+        }
+
         if(GUILayout.Button("Delete all blocks"))
         {
             DeleteAllBlocks();
