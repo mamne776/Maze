@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class MazePrinter : MonoBehaviour
 {
     [Header("Blocks")]
@@ -19,20 +18,20 @@ public class MazePrinter : MonoBehaviour
     public MazeGenerator mazeGenerator;
 
     //rotations
-    private Quaternion faceLeftQ;
-    private Quaternion faceRightQ;
-    private Quaternion faceDownQ;
-    private Quaternion faceUpQ;
+    public Quaternion faceLeftQ = Quaternion.Euler(0, -90, 0);
+    public Quaternion faceRightQ = Quaternion.Euler(0, 90, 0);
+    public Quaternion faceDownQ = Quaternion.Euler(0, 180, 0);
+    public Quaternion faceUpQ = Quaternion.Euler(0, 0, 0);
 
     // Start is called before the first frame update
     void Start()
     {
         Application.targetFrameRate = 30; //noise reduction :D
 
-        faceLeftQ = Quaternion.Euler(0, -90, 0);
-        faceRightQ = Quaternion.Euler(0, 90, 0);
-        faceDownQ = Quaternion.Euler(0, 180, 0);
-        faceUpQ = Quaternion.Euler(0, 0, 0);
+        //faceLeftQ = Quaternion.Euler(0, -90, 0);
+        //faceRightQ = Quaternion.Euler(0, 90, 0);
+        //faceDownQ = Quaternion.Euler(0, 180, 0);
+        //faceUpQ = Quaternion.Euler(0, 0, 0);
     }
 
     // Update is called once per frame
@@ -119,10 +118,30 @@ public class MazePrinter : MonoBehaviour
 
                     case 3:
                         //deadend
-                        if (givenMaze[i, j].walls[0] == false) q = faceLeftQ;
-                        if (givenMaze[i, j].walls[1] == false) q = faceUpQ;
-                        if (givenMaze[i, j].walls[2] == false) q = faceRightQ;
-                        if (givenMaze[i, j].walls[3] == false) q = faceDownQ;
+                        if (givenMaze[i, j].walls[0] == false)
+                        {
+                            q = faceLeftQ;
+                            Debug.Log(q);
+                            Debug.Log("faceLeftQ:" + faceLeftQ);
+                        }
+                        if (givenMaze[i, j].walls[1] == false)
+                        {
+                            q = faceUpQ;
+                            Debug.Log(q);
+                            Debug.Log("faceUpQ: " + faceUpQ);
+                        }
+                        if (givenMaze[i, j].walls[2] == false)
+                        {
+                            q = faceRightQ;
+                            Debug.Log(q);
+                            Debug.Log("faceRightQ: " + faceRightQ);
+                        }
+                        if (givenMaze[i, j].walls[3] == false)
+                        {
+                            q = faceDownQ;
+                            Debug.Log(q);
+                            Debug.Log("faceDownQ: " + faceDownQ);
+                        }
 
                         GameObject.Instantiate(deadEndPiece, new Vector3(j * 8f, 0, i * 8f), q);
                         break;

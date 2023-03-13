@@ -44,6 +44,13 @@ public class MazeTool : EditorWindow
         mazeHeight = EditorGUILayout.IntField("Maze Height", mazeHeight);
         mazeWidth = EditorGUILayout.IntField("Maze Width", mazeWidth);
 
+        //rotations
+        Quaternion faceLeftQ = Quaternion.Euler(0, -90, 0);
+        Quaternion faceRightQ = Quaternion.Euler(0, 90, 0);
+        Quaternion faceDownQ = Quaternion.Euler(0, 180, 0);
+        Quaternion faceUpQ = Quaternion.Euler(0, 0, 0);
+
+        //create and print a maze
         if (GUILayout.Button("MakeMaze"))
         {
             createdMaze = mazeMaker.CreateMaze(mazeHeight, mazeWidth);
@@ -55,13 +62,7 @@ public class MazeTool : EditorWindow
         objectID = EditorGUILayout.IntField("Object ID", objectID);
 
         xCoord = EditorGUILayout.IntField("X-coordinate", xCoord);
-        zCoord = EditorGUILayout.IntField("Z-coordinate", zCoord);
-
-        //rotations
-        Quaternion faceLeftQ = Quaternion.Euler(0, -90, 0);
-        Quaternion faceRightQ = Quaternion.Euler(0, 90, 0);
-        Quaternion faceDownQ = Quaternion.Euler(0, 180, 0);
-        Quaternion faceUpQ = Quaternion.Euler(0, 0, 0);        
+        zCoord = EditorGUILayout.IntField("Z-coordinate", zCoord);                
 
         blockToSpawn = EditorGUILayout.ObjectField("Block to Spawn", blockToSpawn, typeof(GameObject), false) as GameObject;
 
@@ -85,7 +86,9 @@ public class MazeTool : EditorWindow
             q = faceDownQ;
         }
         GUILayout.EndHorizontal();
+
         GUILayout.Space(10);
+
         GUILayout.BeginHorizontal();
         if (GUILayout.Button("Spawn Block"))
         {
@@ -107,8 +110,8 @@ public class MazeTool : EditorWindow
             {
                 editor = Editor.CreateEditor(blockToSpawn);
             }
-            //editor.OnInteractivePreviewGUI(GUILayoutUtility.GetRect(256, 256), bgColor);            
-            editor.DrawPreview(GUILayoutUtility.GetRect(256, 256));
+            editor.OnInteractivePreviewGUI(GUILayoutUtility.GetRect(256, 256), bgColor);            
+            //editor.DrawPreview(GUILayoutUtility.GetRect(256, 256));
         }
 
         if(GUILayout.Button("Delete all blocks"))
