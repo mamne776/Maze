@@ -26,9 +26,6 @@ public class MazeGenerator : MonoBehaviour
         //start with all the walls
         maze = CreateMazeWithOnlyWalls(height, width);
 
-
-
-
         //Start at a random cell
         int randH = Random.Range(0, height);
         int randW = Random.Range(0, width);
@@ -37,9 +34,6 @@ public class MazeGenerator : MonoBehaviour
         MakePaths(cell);
 
         return maze;
-
-
-
     }
 
     private void MakePaths(Cell cell)

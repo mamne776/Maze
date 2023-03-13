@@ -56,7 +56,7 @@ public class MazePrinter : MonoBehaviour
         }
     }
 
-    private void PrintMaze(Cell[,] givenMaze)
+    public void PrintMaze(Cell[,] givenMaze)
     {
         int h = givenMaze.GetLength(0);
         int w = givenMaze.GetLength(1);
@@ -67,6 +67,7 @@ public class MazePrinter : MonoBehaviour
         {
             for (int j = 0; j < w; j++)
             {
+                Debug.Log(givenMaze[i, j].walls[0] + ", " + givenMaze[i, j].walls[1] + ", " + givenMaze[i, j].walls[2] + ", " + givenMaze[i, j].walls[3]);
                 switch (givenMaze[i, j].surroundingWalls)
                 {
                     //no walls, ie. a crossing
@@ -101,13 +102,18 @@ public class MazePrinter : MonoBehaviour
                         //corner pieces
                         //no wall left and top
                         if (givenMaze[i, j].walls[0] == false && givenMaze[i, j].walls[1] == false) q = faceLeftQ;
+                        //Debug.Log("No wall left and top");
+                        //Debug.Log(q);
                         //no wall top and right
                         if (givenMaze[i, j].walls[1] == false && givenMaze[i, j].walls[2] == false) q = faceUpQ;
+                        //Debug.Log("No wall top and right");
                         //no wall right and bottom
                         if (givenMaze[i, j].walls[2] == false && givenMaze[i, j].walls[3] == false) q = faceRightQ;
                         //no wall bottom and left
                         if (givenMaze[i, j].walls[3] == false && givenMaze[i, j].walls[0] == false) q = faceDownQ;
-                       
+
+                        //Debug.Log("Rotation set!");
+                        //Debug.Log(q);
                         GameObject.Instantiate(cornerPiece, new Vector3(j * 8f, 0, i * 8f), q);
                         break;
 
@@ -133,9 +139,9 @@ public class MazePrinter : MonoBehaviour
         }
     }
 
-    private void DestroyMaze()
+    public void DestroyMaze()
     {
-        GameObject[] destroyThese = GameObject.FindGameObjectsWithTag("HallwayBlock");
+        GameObject[] destroyThese = GameObject.FindGameObjectsWithTag("Block");
         foreach (var item in destroyThese)
         {
             Destroy(item);
