@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a08be793428b44cbbdb60755c00702, type: 3}
+  m_Name: MazeToolData
+  m_EditorClassIdentifier: 
+  testInt: 147
+  BaseName: Block
+  mazeMaker: {fileID: 1697385338488914178, guid: 025ab20a84a7565428754b6c645e8013, type: 3}
+  mazePrinter: {fileID: 9185892273702992432, guid: c205b2f36ba2d024ea9b03975d08a583, type: 3}
