@@ -66,7 +66,7 @@ public class MazePrinter : MonoBehaviour
         {
             for (int j = 0; j < w; j++)
             {
-                Debug.Log(givenMaze[i, j].walls[0] + ", " + givenMaze[i, j].walls[1] + ", " + givenMaze[i, j].walls[2] + ", " + givenMaze[i, j].walls[3]);
+                //Debug.Log(givenMaze[i, j].walls[0] + ", " + givenMaze[i, j].walls[1] + ", " + givenMaze[i, j].walls[2] + ", " + givenMaze[i, j].walls[3]);
                 switch (givenMaze[i, j].surroundingWalls)
                 {
                     //no walls, ie. a crossing
@@ -121,26 +121,26 @@ public class MazePrinter : MonoBehaviour
                         if (givenMaze[i, j].walls[0] == false)
                         {
                             q = faceLeftQ;
-                            Debug.Log(q);
-                            Debug.Log("faceLeftQ:" + faceLeftQ);
+                            //Debug.Log(q);
+                            //Debug.Log("faceLeftQ:" + faceLeftQ);
                         }
                         if (givenMaze[i, j].walls[1] == false)
                         {
                             q = faceUpQ;
-                            Debug.Log(q);
-                            Debug.Log("faceUpQ: " + faceUpQ);
+                            //Debug.Log(q);
+                            //Debug.Log("faceUpQ: " + faceUpQ);
                         }
                         if (givenMaze[i, j].walls[2] == false)
                         {
                             q = faceRightQ;
-                            Debug.Log(q);
-                            Debug.Log("faceRightQ: " + faceRightQ);
+                            //Debug.Log(q);
+                            //Debug.Log("faceRightQ: " + faceRightQ);
                         }
                         if (givenMaze[i, j].walls[3] == false)
                         {
                             q = faceDownQ;
-                            Debug.Log(q);
-                            Debug.Log("faceDownQ: " + faceDownQ);
+                            //Debug.Log(q);
+                            //Debug.Log("faceDownQ: " + faceDownQ);
                         }
 
                         GameObject.Instantiate(deadEndPiece, new Vector3(j * 8f, 0, i * 8f), q);

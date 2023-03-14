@@ -15,18 +15,19 @@ public class MazeTool : EditorWindow
     int mazeHeight, mazeWidth;
     Cell[,] createdMaze;
 
-    string objectBaseName = "";
+    string objectBaseName;
     int objectID = 1;
 
     int xCoord;
     int zCoord;
 
-
     Quaternion q;
 
     public GameObject blockToSpawn;
+    public GameObject selectedBlock;
 
-    GameObject[] blocks;
+
+    //GameObject[] blocks;
 
     [MenuItem("Tools/MazeTool")]
     public static void ShowWindow()
@@ -45,6 +46,7 @@ public class MazeTool : EditorWindow
         mazeMaker = mazeToolSO.mazeMaker;
         //mazePrinter = EditorGUILayout.ObjectField("Maze Printer", mazePrinter, typeof(MazePrinter), false) as MazePrinter;
         mazePrinter = mazeToolSO.mazePrinter;
+        objectBaseName = mazeToolSO.baseNameForBlocks;
 
         mazeHeight = EditorGUILayout.IntField("Maze Height", mazeHeight);
         mazeWidth = EditorGUILayout.IntField("Maze Width", mazeWidth);
@@ -71,6 +73,16 @@ public class MazeTool : EditorWindow
         zCoord = EditorGUILayout.IntField("Z-coordinate", zCoord);                
 
         blockToSpawn = EditorGUILayout.ObjectField("Block to Spawn", blockToSpawn, typeof(GameObject), false) as GameObject;
+        if (selectedBlock == null)
+        {
+            selectedBlock = blockToSpawn;
+            Debug.Log("Here again");
+        }
+        else
+        {
+            selectedBlock = (GameObject)editor.target;
+            Debug.Log("Here instead");
+        }
 
         GUILayout.BeginHorizontal();
         if (GUILayout.Button("Face Left"))
@@ -109,6 +121,19 @@ public class MazeTool : EditorWindow
 
         GUILayout.Space(10);
 
+        /*
+        //Display the selected block
+        if (selectedBlock != null)
+        {
+            if (editor == null)
+            {
+                editor = Editor.CreateEditor(selectedBlock);
+            }
+            editor.OnInteractivePreviewGUI(GUILayoutUtility.GetRect(256, 256), bgColor);
+            //editor.DrawPreview(GUILayoutUtility.GetRect(256, 256));
+        }
+        */
+        
         //Display the block we are spawning
         if (blockToSpawn != null)
         {
@@ -118,22 +143,38 @@ public class MazeTool : EditorWindow
             }
             editor.OnInteractivePreviewGUI(GUILayoutUtility.GetRect(256, 256), bgColor);            
             //editor.DrawPreview(GUILayoutUtility.GetRect(256, 256));
-        }
+        }        
 
-        if (GUILayout.Button("Save changes to tool"))
-        {
-            SaveChanges();
-        }
-
-        if (GUILayout.Button("Load tool"))
-        {
-            //
-        }
-
+        //delete all blocks
         if(GUILayout.Button("Delete all blocks"))
         {
             DeleteAllBlocks();
         }
+
+        //if any changes are made in the tool
+        if (GUI.changed)
+        {
+            Debug.Log("GUI changed");
+            //editor = Editor.CreateEditor(blockToSpawn);
+            if (editor == null)
+            {
+                editor = Editor.CreateEditor(selectedBlock);
+            }
+            editor.OnInteractivePreviewGUI(GUILayoutUtility.GetRect(256, 256), bgColor);
+        }
+
+
+
+
+
+    }
+
+    private void OnSelectionChange()
+    {
+        Debug.Log("Selection change");
+        //Debug.Log("editor.target: " + editor.target);
+        //selectedBlock = (GameObject)editor.target;
+        //Debug.Log(selectedBlock);
     }
 
     private void SpawnBlock()
@@ -154,7 +195,6 @@ public class MazeTool : EditorWindow
         newBlock.name = objectBaseName + objectID;
         objectID++;
     }
-
     private void RemoveBlock()
     {
         if (Selection.activeGameObject.CompareTag("Block"))
@@ -162,7 +202,6 @@ public class MazeTool : EditorWindow
             DestroyImmediate(Selection.activeGameObject, false);
         }
     }
-
     private void DeleteAllBlocks()
     {
         GameObject[] destroyThese = GameObject.FindGameObjectsWithTag("Block");
@@ -171,19 +210,4 @@ public class MazeTool : EditorWindow
             DestroyImmediate(item, false);
         }
     }
-
-    /*
-    private void ShowInScene()
-    {
-        if (blockToSpawn == null)
-        {
-            Debug.Log("Assign block to be spawned");
-            return;
-        }
-
-        Vector3 spawnPos = new Vector3(xCoord * 8f, 0, zCoord * 8);
-        GameObject newBlock = Instantiate(blockToSpawn, spawnPos, Quaternion.identity);
-
-    }
-    */
 }
