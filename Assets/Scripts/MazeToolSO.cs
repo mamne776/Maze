@@ -6,10 +6,20 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "MazeToolData", menuName = "ScriptableObjects/MazeToolSO", order = 1)]
 public class MazeToolSO : ScriptableObject
 {
-    public int testInt;
-
-    public string BaseName;
+    public string baseNameForBlocks;
     public MazeGenerator mazeMaker;
     public MazePrinter mazePrinter;
+
+
+    //Blocks
+    public GameObject basicBlock;
+    public GameObject deadEndBlock;
+    public GameObject hallwayBlock;
+    public GameObject cornerBlock;
+    public GameObject TBlock;
+    public GameObject crossingBlock;
+    //public GameObject BasicBlock;
+
+
 
 }

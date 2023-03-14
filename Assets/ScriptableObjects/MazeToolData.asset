@@ -12,7 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34a08be793428b44cbbdb60755c00702, type: 3}
   m_Name: MazeToolData
   m_EditorClassIdentifier: 
-  testInt: 147
-  BaseName: Block
+  baseNameForBlocks: Block
   mazeMaker: {fileID: 1697385338488914178, guid: 025ab20a84a7565428754b6c645e8013, type: 3}
   mazePrinter: {fileID: 9185892273702992432, guid: c205b2f36ba2d024ea9b03975d08a583, type: 3}
+  basicBlock: {fileID: 8702144402707107281, guid: 3efd57d8444819446964c9f98006c383, type: 3}
+  deadEndBlock: {fileID: 4988199262035289037, guid: 122d535ac42a5634db23dcccbb211b5e, type: 3}
+  hallwayBlock: {fileID: 4859210144938502199, guid: 3e681380732abb845b10d5975c67e80e, type: 3}
+  cornerBlock: {fileID: 6997678796497391385, guid: 7a41f12db9e113a40b64fe56a9fe15c7, type: 3}
+  TBlock: {fileID: 7397924824383367453, guid: d28e407ce25f2904b819ed31642b1f69, type: 3}
+  crossingBlock: {fileID: 2162931128237583795, guid: 14d6fe57ed970c845a3a90fbe70b7205, type: 3}
