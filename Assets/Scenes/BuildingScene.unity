@@ -123,17 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &258692739 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1697385338488914178, guid: 025ab20a84a7565428754b6c645e8013, type: 3}
-  m_PrefabInstance: {fileID: 1697385338646681473}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8bff0b80d766f7429b58dd21f820388, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1134676777
 GameObject:
   m_ObjectHideFlags: 0
@@ -398,6 +387,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8803075713609632281, guid: 025ab20a84a7565428754b6c645e8013, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 025ab20a84a7565428754b6c645e8013, type: 3}
 --- !u!1001 &9185892274241353720
@@ -407,6 +400,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7010503785082325775, guid: c205b2f36ba2d024ea9b03975d08a583, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 9185892273702992432, guid: c205b2f36ba2d024ea9b03975d08a583, type: 3}
       propertyPath: faceDownQ.w
       value: -0.00000004371139
@@ -434,7 +431,7 @@ PrefabInstance:
     - target: {fileID: 9185892273702992432, guid: c205b2f36ba2d024ea9b03975d08a583, type: 3}
       propertyPath: mazeGenerator
       value: 
-      objectReference: {fileID: 258692739}
+      objectReference: {fileID: 0}
     - target: {fileID: 9185892273702992433, guid: c205b2f36ba2d024ea9b03975d08a583, type: 3}
       propertyPath: m_RootOrder
       value: 3

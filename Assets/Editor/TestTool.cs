@@ -7,6 +7,8 @@ public class TestTool : EditorWindow
 {
     public GameObject selectedObject;
     Editor editor;
+    public Camera camera;
+
 
     [MenuItem("Tools/TestTool")]
     public static void ShowWindow()
@@ -17,6 +19,10 @@ public class TestTool : EditorWindow
     {
         GUIStyle bgColor = new GUIStyle();
         bgColor.normal.background = EditorGUIUtility.whiteTexture;
+
+        camera = EditorGUILayout.ObjectField("Camera", camera, typeof(Camera), false) as Camera;
+
+        Handles.DrawCamera(GUILayoutUtility.GetRect(256, 256), camera);
 
         //Display the selected block
         if (selectedObject != null)
@@ -37,7 +43,7 @@ public class TestTool : EditorWindow
         Debug.Log("Selection change");
         //Debug.Log("editor.target: " + Selection.activeObject);
         EditorGUI.BeginChangeCheck();
-        selectedObject = (GameObject)Selection.activeObject;
+        //selectedObject = (GameObject)Selection.activeObject;
         EditorGUI.EndChangeCheck();
         //Debug.Log(selectedObject);
         Repaint();

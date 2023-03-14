@@ -7,27 +7,28 @@ public class MazeTool : EditorWindow
 {
     Editor editor;
 
+    private Camera blockCamera;
+
     private MazeGenerator mazeMaker;
     private MazePrinter mazePrinter;
 
     public MazeToolSO mazeToolSO;
 
     int mazeHeight, mazeWidth;
+
+    //the meat
     Cell[,] createdMaze;
 
     string objectBaseName;
-    int objectID = 1;
+    int objectID = 0;
 
+    //block we're about to spawn
+    public GameObject blockToSpawn;
+    //its coordinates
     int xCoord;
     int zCoord;
-
+    //and rotation
     Quaternion q;
-
-    public GameObject blockToSpawn;
-    public GameObject selectedBlock;
-
-
-    //GameObject[] blocks;
 
     [MenuItem("Tools/MazeTool")]
     public static void ShowWindow()
@@ -37,19 +38,20 @@ public class MazeTool : EditorWindow
 
     private void OnGUI()
     {
+        blockCamera = mazeToolSO.camera;
+
         GUIStyle bgColor = new GUIStyle();
         bgColor.normal.background = EditorGUIUtility.whiteTexture;
 
         GUILayout.Label("Make a maze", EditorStyles.boldLabel);
 
-        //mazeMaker = EditorGUILayout.ObjectField("MazeMaker", mazeMaker, typeof(MazeGenerator), false) as MazeGenerator;
         mazeMaker = mazeToolSO.mazeMaker;
-        //mazePrinter = EditorGUILayout.ObjectField("Maze Printer", mazePrinter, typeof(MazePrinter), false) as MazePrinter;
         mazePrinter = mazeToolSO.mazePrinter;
-        objectBaseName = mazeToolSO.baseNameForBlocks;
 
         mazeHeight = EditorGUILayout.IntField("Maze Height", mazeHeight);
         mazeWidth = EditorGUILayout.IntField("Maze Width", mazeWidth);
+
+        objectBaseName = mazeToolSO.baseNameForBlocks;
 
         //rotations
         Quaternion faceLeftQ = Quaternion.Euler(0, -90, 0);
@@ -67,44 +69,29 @@ public class MazeTool : EditorWindow
         GUILayout.Label("Spawn a block", EditorStyles.boldLabel);
         objectBaseName = EditorGUILayout.TextField("Base Name", objectBaseName);
 
-        objectID = EditorGUILayout.IntField("Object ID", objectID);        
+        objectID = EditorGUILayout.IntField("Object ID", objectID);
 
         xCoord = EditorGUILayout.IntField("X-coordinate", xCoord);
-        zCoord = EditorGUILayout.IntField("Z-coordinate", zCoord);                
+        zCoord = EditorGUILayout.IntField("Z-coordinate", zCoord);
 
         blockToSpawn = EditorGUILayout.ObjectField("Block to Spawn", blockToSpawn, typeof(GameObject), false) as GameObject;
-        if (selectedBlock == null)
-        {
-            selectedBlock = blockToSpawn;
-            Debug.Log("Here again");
-        }
-        else
-        {
-            selectedBlock = (GameObject)editor.target;
-            Debug.Log("Here instead");
-        }
 
         GUILayout.BeginHorizontal();
-        if (GUILayout.Button("Face Left"))
-        {
-            q = faceLeftQ;
-            //Debug.Log(q);
-        }
-        if (GUILayout.Button("Face Up"))
-        {
-            q = faceUpQ;
-            //Debug.Log(q);
-        }
-        if (GUILayout.Button("Face Right"))
-        {
-            q = faceRightQ;
-        }
-        if (GUILayout.Button("Face Down"))
-        {
-            q = faceDownQ;
-        }
+        GUILayout.FlexibleSpace();
+        if (GUILayout.Button("Face Up", GUILayout.Width(80), GUILayout.Height(30))) { q = faceUpQ; }
+        GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
-
+        GUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+        if (GUILayout.Button("Face Left", GUILayout.Width(80), GUILayout.Height(30))) { q = faceLeftQ; }
+        if (GUILayout.Button("Face Right", GUILayout.Width(80), GUILayout.Height(30))) { q = faceRightQ; }
+        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
+        GUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+        if (GUILayout.Button("Face Down", GUILayout.Width(80), GUILayout.Height(30))) { q = faceDownQ; }
+        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
         GUILayout.Space(10);
 
         GUILayout.BeginHorizontal();
@@ -115,38 +102,29 @@ public class MazeTool : EditorWindow
         if (GUILayout.Button("Destroy Block"))
         {
             RemoveBlock();
-            //Debug.Log("Test Button pressed");
         }
         GUILayout.EndHorizontal();
-
         GUILayout.Space(10);
 
-        /*
-        //Display the selected block
-        if (selectedBlock != null)
-        {
-            if (editor == null)
-            {
-                editor = Editor.CreateEditor(selectedBlock);
-            }
-            editor.OnInteractivePreviewGUI(GUILayoutUtility.GetRect(256, 256), bgColor);
-            //editor.DrawPreview(GUILayoutUtility.GetRect(256, 256));
-        }
-        */
-        
         //Display the block we are spawning
+
+        Handles.DrawCamera(GUILayoutUtility.GetRect(256, 256), blockCamera);
+
+
+        /*
         if (blockToSpawn != null)
         {
             if (editor == null)
             {
                 editor = Editor.CreateEditor(blockToSpawn);
             }
-            editor.OnInteractivePreviewGUI(GUILayoutUtility.GetRect(256, 256), bgColor);            
+            editor.OnInteractivePreviewGUI(GUILayoutUtility.GetRect(256, 256), bgColor);
             //editor.DrawPreview(GUILayoutUtility.GetRect(256, 256));
-        }        
+        }
+        */
 
         //delete all blocks
-        if(GUILayout.Button("Delete all blocks"))
+        if (GUILayout.Button("Delete all blocks"))
         {
             DeleteAllBlocks();
         }
@@ -155,26 +133,12 @@ public class MazeTool : EditorWindow
         if (GUI.changed)
         {
             Debug.Log("GUI changed");
-            //editor = Editor.CreateEditor(blockToSpawn);
-            if (editor == null)
-            {
-                editor = Editor.CreateEditor(selectedBlock);
-            }
-            editor.OnInteractivePreviewGUI(GUILayoutUtility.GetRect(256, 256), bgColor);
         }
-
-
-
-
-
     }
 
     private void OnSelectionChange()
     {
         Debug.Log("Selection change");
-        //Debug.Log("editor.target: " + editor.target);
-        //selectedBlock = (GameObject)editor.target;
-        //Debug.Log(selectedBlock);
     }
 
     private void SpawnBlock()

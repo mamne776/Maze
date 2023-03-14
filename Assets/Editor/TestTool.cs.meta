@@ -6,6 +6,7 @@ MonoImporter:
   defaultReferences:
   - m_ViewDataDictionary: {instanceID: 0}
   - selectedObject: {fileID: 8702144402707107281, guid: 3efd57d8444819446964c9f98006c383, type: 3}
+  - camera: {fileID: 3565901718645591909, guid: 3131346f94da23a43b1d6b5dcf6b66f7, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

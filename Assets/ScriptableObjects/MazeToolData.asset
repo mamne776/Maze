@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: MazeToolData
   m_EditorClassIdentifier: 
   baseNameForBlocks: Block
-  mazeMaker: {fileID: 1697385338488914178, guid: 025ab20a84a7565428754b6c645e8013, type: 3}
-  mazePrinter: {fileID: 9185892273702992432, guid: c205b2f36ba2d024ea9b03975d08a583, type: 3}
+  mazeMaker: {fileID: 4361237053552949906, guid: 025ab20a84a7565428754b6c645e8013, type: 3}
+  mazePrinter: {fileID: 3096187020478860208, guid: c205b2f36ba2d024ea9b03975d08a583, type: 3}
+  camera: {fileID: 3565901718645591909, guid: 3131346f94da23a43b1d6b5dcf6b66f7, type: 3}
   basicBlock: {fileID: 8702144402707107281, guid: 3efd57d8444819446964c9f98006c383, type: 3}
   deadEndBlock: {fileID: 4988199262035289037, guid: 122d535ac42a5634db23dcccbb211b5e, type: 3}
   hallwayBlock: {fileID: 4859210144938502199, guid: 3e681380732abb845b10d5975c67e80e, type: 3}
