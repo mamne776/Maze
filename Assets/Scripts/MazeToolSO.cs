@@ -10,8 +10,11 @@ public class MazeToolSO : ScriptableObject
     public MazeGenerator mazeMaker;
     public MazePrinter mazePrinter;
 
+    [Header("Camera for preview")]
+    public Camera camera;
 
     //Blocks
+    [Header("Blocks")]
     public GameObject basicBlock;
     public GameObject deadEndBlock;
     public GameObject hallwayBlock;
