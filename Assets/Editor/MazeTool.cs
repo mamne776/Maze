@@ -7,8 +7,10 @@ public class MazeTool : EditorWindow
 {
     Editor editor;
 
-    MazeGenerator mazeMaker;
-    MazePrinter mazePrinter;
+    private MazeGenerator mazeMaker;
+    private MazePrinter mazePrinter;
+
+    public MazeToolSO mazeToolSO;
 
     int mazeHeight, mazeWidth;
     Cell[,] createdMaze;
@@ -19,9 +21,10 @@ public class MazeTool : EditorWindow
     int xCoord;
     int zCoord;
 
+
     Quaternion q;
 
-    GameObject blockToSpawn;
+    public GameObject blockToSpawn;
 
     GameObject[] blocks;
 
@@ -38,8 +41,10 @@ public class MazeTool : EditorWindow
 
         GUILayout.Label("Make a maze", EditorStyles.boldLabel);
 
-        mazeMaker = EditorGUILayout.ObjectField("MazeMaker", mazeMaker, typeof(MazeGenerator), false) as MazeGenerator;
-        mazePrinter = EditorGUILayout.ObjectField("Maze Printer", mazePrinter, typeof(MazePrinter), false) as MazePrinter;
+        //mazeMaker = EditorGUILayout.ObjectField("MazeMaker", mazeMaker, typeof(MazeGenerator), false) as MazeGenerator;
+        mazeMaker = mazeToolSO.mazeMaker;
+        //mazePrinter = EditorGUILayout.ObjectField("Maze Printer", mazePrinter, typeof(MazePrinter), false) as MazePrinter;
+        mazePrinter = mazeToolSO.mazePrinter;
 
         mazeHeight = EditorGUILayout.IntField("Maze Height", mazeHeight);
         mazeWidth = EditorGUILayout.IntField("Maze Width", mazeWidth);
@@ -59,7 +64,8 @@ public class MazeTool : EditorWindow
 
         GUILayout.Label("Spawn a block", EditorStyles.boldLabel);
         objectBaseName = EditorGUILayout.TextField("Base Name", objectBaseName);
-        objectID = EditorGUILayout.IntField("Object ID", objectID);
+
+        objectID = EditorGUILayout.IntField("Object ID", objectID);        
 
         xCoord = EditorGUILayout.IntField("X-coordinate", xCoord);
         zCoord = EditorGUILayout.IntField("Z-coordinate", zCoord);                

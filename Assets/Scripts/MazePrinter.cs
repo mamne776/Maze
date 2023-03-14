@@ -18,10 +18,10 @@ public class MazePrinter : MonoBehaviour
     public MazeGenerator mazeGenerator;
 
     //rotations
-    public Quaternion faceLeftQ = Quaternion.Euler(0, -90, 0);
-    public Quaternion faceRightQ = Quaternion.Euler(0, 90, 0);
-    public Quaternion faceDownQ = Quaternion.Euler(0, 180, 0);
-    public Quaternion faceUpQ = Quaternion.Euler(0, 0, 0);
+    private Quaternion faceLeftQ = Quaternion.Euler(0, -90, 0);
+    private Quaternion faceRightQ = Quaternion.Euler(0, 90, 0);
+    private Quaternion faceDownQ = Quaternion.Euler(0, 180, 0);
+    private Quaternion faceUpQ = Quaternion.Euler(0, 0, 0);
 
     // Start is called before the first frame update
     void Start()

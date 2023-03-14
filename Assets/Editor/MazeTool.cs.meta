@@ -3,7 +3,12 @@ guid: ea0aa21ad72163d46a24acd9777f77aa
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - m_ViewDataDictionary: {instanceID: 0}
+  - mazeMaker: {instanceID: 0}
+  - mazePrinter: {instanceID: 0}
+  - mazeToolSO: {fileID: 11400000, guid: 846e1779a75a7fb40a6b31977a18ec88, type: 2}
+  - blockToSpawn: {fileID: 4988199262035289037, guid: 122d535ac42a5634db23dcccbb211b5e, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
