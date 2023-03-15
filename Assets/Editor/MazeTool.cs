@@ -30,6 +30,13 @@ public class MazeTool : EditorWindow
     //and rotation
     Quaternion q;
 
+    int index = 0;
+    //string[] options = new string[] { "test", "test2", "test3" };
+    //string[] options = new string[];
+
+    Rect windowRect = new Rect(100, 100, 200, 200);
+
+
     [MenuItem("Tools/MazeTool")]
     public static void ShowWindow()
     {
@@ -38,6 +45,13 @@ public class MazeTool : EditorWindow
 
     private void OnGUI()
     {
+        string[] options = new string[mazeToolSO.blocks.Length];
+
+        for (int i = 0; i < mazeToolSO.blocks.Length; i++)
+        {
+            options[i] = mazeToolSO.blocks[i].name;
+        }
+
         blockCamera = mazeToolSO.camera;
 
         GUIStyle bgColor = new GUIStyle();
@@ -74,7 +88,23 @@ public class MazeTool : EditorWindow
         xCoord = EditorGUILayout.IntField("X-coordinate", xCoord);
         zCoord = EditorGUILayout.IntField("Z-coordinate", zCoord);
 
-        blockToSpawn = EditorGUILayout.ObjectField("Block to Spawn", blockToSpawn, typeof(GameObject), false) as GameObject;
+        GUILayout.Label("Type of Block to create:", EditorStyles.wordWrappedLabel);
+        EditorGUI.BeginChangeCheck();
+        index = EditorGUILayout.Popup(index, options);
+        EditorGUI.EndChangeCheck();
+        blockToSpawn = mazeToolSO.blocks[index];
+             
+        //GUILayout.
+        Rect cameraRect = GUILayoutUtility.GetRect(256, 256);
+        //cameraRect = GUILayout.Window(1, cameraRect, DoWindow, "Yes");
+        //cameraRect.position = new Vector2(0, 256);
+        Handles.DrawCamera(cameraRect, blockCamera);      
+
+
+
+
+        
+
 
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
@@ -104,24 +134,7 @@ public class MazeTool : EditorWindow
             RemoveBlock();
         }
         GUILayout.EndHorizontal();
-        GUILayout.Space(10);
-
-        //Display the block we are spawning
-
-        Handles.DrawCamera(GUILayoutUtility.GetRect(256, 256), blockCamera);
-
-
-        /*
-        if (blockToSpawn != null)
-        {
-            if (editor == null)
-            {
-                editor = Editor.CreateEditor(blockToSpawn);
-            }
-            editor.OnInteractivePreviewGUI(GUILayoutUtility.GetRect(256, 256), bgColor);
-            //editor.DrawPreview(GUILayoutUtility.GetRect(256, 256));
-        }
-        */
+        GUILayout.Space(10);       
 
         //delete all blocks
         if (GUILayout.Button("Delete all blocks"))
