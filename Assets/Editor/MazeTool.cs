@@ -93,12 +93,17 @@ public class MazeTool : EditorWindow
         index = EditorGUILayout.Popup(index, options);
         EditorGUI.EndChangeCheck();
         blockToSpawn = mazeToolSO.blocks[index];
-             
-        //GUILayout.
-        Rect cameraRect = GUILayoutUtility.GetRect(256, 256);
+
+
+
+
+        
+
+        
+        Rect cameraRect = GUILayoutUtility.GetRect(0, 512, 0, 1028 );
         //cameraRect = GUILayout.Window(1, cameraRect, DoWindow, "Yes");
         //cameraRect.position = new Vector2(0, 256);
-        Handles.DrawCamera(cameraRect, blockCamera);      
+        Handles.DrawCamera(cameraRect, blockCamera);
 
 
 
