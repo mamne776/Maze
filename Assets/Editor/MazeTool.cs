@@ -174,8 +174,21 @@ public class MazeTool : EditorWindow
 
         Vector3 spawnPos = new Vector3(xCoord * 8f, 0, zCoord * 8);
         GameObject newBlock = Instantiate(blockToSpawn, spawnPos, q);
+
+
+        //new stuff
+        DestroyImmediate(createdMaze[xCoord, zCoord], false);
+        createdMaze[xCoord, zCoord] = new Cell() {widthPos = xCoord, heightPos = zCoord, hasBeenChecked = true };
+        //
+        
         newBlock.name = objectBaseName + objectID;
         objectID++;
+
+
+        //testing
+        //DeleteAllBlocks();
+        mazePrinter.PrintMaze(createdMaze);
+        //
     }
     private void RemoveBlock()
     {
