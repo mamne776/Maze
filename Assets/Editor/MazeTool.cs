@@ -138,6 +138,11 @@ public class MazeTool : EditorWindow
         {
             RemoveBlock();
         }
+        //replace block
+        if (GUILayout.Button("Replace block"))
+        {
+            ReplaceBlock();
+        }
         GUILayout.EndHorizontal();
         GUILayout.Space(10);       
 
@@ -145,18 +150,71 @@ public class MazeTool : EditorWindow
         if (GUILayout.Button("Delete all blocks"))
         {
             DeleteAllBlocks();
-        }
+        }       
 
         //if any changes are made in the tool
         if (GUI.changed)
         {
-            Debug.Log("GUI changed");
+            //Debug.Log("GUI changed");
         }
     }
 
     private void OnSelectionChange()
     {
-        Debug.Log("Selection change");
+        //Debug.Log("Selection change");
+    }
+
+    private void ReplaceBlock()
+    {
+        if (blockToSpawn == null)
+        {
+            Debug.Log("Assign block to spawn");
+            return;
+        }
+        if (objectBaseName == string.Empty)
+        {
+            Debug.Log("Assign a base name for the object");
+            return;
+        }
+
+        Debug.Log("Block to spawn: " + blockToSpawn);
+
+        Vector3 spawnPos = new Vector3(xCoord * 8f, 0, zCoord * 8);
+        GameObject newBlock = Instantiate(blockToSpawn, spawnPos, q);
+
+        //new stuff
+        //replace in array
+        createdMaze[zCoord, xCoord] = new Cell() { widthPos = xCoord, heightPos = zCoord, hasBeenChecked = true };
+
+        //still need neighbours Cell[4], walls bool[4] and surroundingwalls int < 5
+        mazeMaker.SetNeighbours(createdMaze[xCoord, zCoord]);      
+        
+        //set walls
+
+        //NO STUPID
+        /*
+        //always wall on the top if on the top row
+        Debug.Log("heightpos: " + createdMaze[zCoord, xCoord].heightPos + ", createdMaze.GetLength(0): " + createdMaze.GetLength(0));
+        if (createdMaze[zCoord, xCoord].heightPos < createdMaze.GetLength(0))
+        {
+            //check the neighbours wall situation. if neighbour has wall there, so does this cell on the opposing edge            
+                createdMaze[zCoord, xCoord].walls[1] = createdMaze[zCoord + 1, xCoord].walls[3];            
+        }
+
+        //always wall on bottom if on the bottom row
+        if (createdMaze[zCoord, xCoord].heightPos > 0)
+        {
+            createdMaze[zCoord, xCoord].walls[3] = createdMaze[zCoord - 1, xCoord].walls[1];
+        }
+        */
+
+        newBlock.name = objectBaseName + objectID;
+        objectID++;
+
+        //testing
+        DeleteAllBlocks();
+        mazePrinter.PrintMaze(createdMaze);
+        //
     }
 
     private void SpawnBlock()
@@ -174,22 +232,11 @@ public class MazeTool : EditorWindow
 
         Vector3 spawnPos = new Vector3(xCoord * 8f, 0, zCoord * 8);
         GameObject newBlock = Instantiate(blockToSpawn, spawnPos, q);
-
-
-        //new stuff
-        DestroyImmediate(createdMaze[xCoord, zCoord], false);
-        createdMaze[xCoord, zCoord] = new Cell() {widthPos = xCoord, heightPos = zCoord, hasBeenChecked = true };
-        //
         
         newBlock.name = objectBaseName + objectID;
         objectID++;
-
-
-        //testing
-        //DeleteAllBlocks();
-        mazePrinter.PrintMaze(createdMaze);
-        //
     }
+
     private void RemoveBlock()
     {
         if (Selection.activeGameObject.CompareTag("Block"))
@@ -197,6 +244,7 @@ public class MazeTool : EditorWindow
             DestroyImmediate(Selection.activeGameObject, false);
         }
     }
+
     private void DeleteAllBlocks()
     {
         GameObject[] destroyThese = GameObject.FindGameObjectsWithTag("Block");
