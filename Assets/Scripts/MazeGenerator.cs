@@ -126,7 +126,7 @@ public class MazeGenerator : MonoBehaviour
     }
 
     //set the neighbours for a given cell
-    private void SetNeighbours(Cell cellToCheck)
+    public void SetNeighbours(Cell cellToCheck)
     {
         int h = cellToCheck.heightPos;
         int w = cellToCheck.widthPos;
