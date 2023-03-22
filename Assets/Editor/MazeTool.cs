@@ -180,16 +180,16 @@ public class MazeTool : EditorWindow
         Debug.Log("Block to spawn: " + blockToSpawn);
 
         Vector3 spawnPos = new Vector3(xCoord * 8f, 0, zCoord * 8);
-        GameObject newBlock = Instantiate(blockToSpawn, spawnPos, q);
+        //GameObject newBlock = Instantiate(blockToSpawn, spawnPos, q);
 
         //new stuff
         //replace in array
         createdMaze[zCoord, xCoord] = new Cell() { widthPos = xCoord, heightPos = zCoord, hasBeenChecked = true };
 
         //still need neighbours Cell[4], walls bool[4] and surroundingwalls int < 5
-        mazeMaker.SetNeighbours(createdMaze[xCoord, zCoord]);      
-        
+        mazeMaker.SetNeighbours(createdMaze[zCoord, xCoord]);
         //set walls
+        SetWalls(createdMaze[zCoord, xCoord]);
 
         //NO STUPID
         /*
@@ -208,13 +208,55 @@ public class MazeTool : EditorWindow
         }
         */
 
-        newBlock.name = objectBaseName + objectID;
+        //newBlock.name = objectBaseName + objectID;
         objectID++;
 
         //testing
         DeleteAllBlocks();
         mazePrinter.PrintMaze(createdMaze);
         //
+    }
+
+
+    //lets get this working on the simplest case first, ie. a full crossing
+    private void SetWalls(Cell cell)
+    {
+        int x = cell.widthPos;
+        int z = cell.heightPos;
+
+        if (blockToSpawn.name == "FullCrossingBlock")
+        {
+            Debug.Log("hep");
+
+            cell.surroundingWalls = 0;
+            for (int i = 0; i < 4; i++)
+            {
+                cell.walls[i] = false;
+            }
+
+            //cell not on the right edge
+            if (cell.widthPos < createdMaze.GetLength(1))
+            {
+                //remove wall on the right
+                createdMaze[z, x].walls[2] = false;
+                //remove the neighbours opposing wall
+                createdMaze[z, x + 1].walls[0] = false;
+            }
+            //cell not on the left edge
+            if (x > 0)
+            {
+                createdMaze[z, x].walls[2] = false;
+                createdMaze[z, x - 1].walls[0] = false;
+            }
+
+            //
+            /*
+            if (z > 0)
+            {
+                cell.walls[]
+            }
+            */
+        }
     }
 
     private void SpawnBlock()
