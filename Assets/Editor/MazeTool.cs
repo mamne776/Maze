@@ -36,6 +36,9 @@ public class MazeTool : EditorWindow
 
     Rect windowRect = new Rect(100, 100, 200, 200);
 
+    enum Rotation { None, Left, Up, Right, Down };
+    Rotation selectedRotation = Rotation.Up;
+
 
     [MenuItem("Tools/MazeTool")]
     public static void ShowWindow()
@@ -62,8 +65,8 @@ public class MazeTool : EditorWindow
         mazeMaker = mazeToolSO.mazeMaker;
         mazePrinter = mazeToolSO.mazePrinter;
 
-        mazeHeight = EditorGUILayout.IntField("Maze Height", mazeHeight);
         mazeWidth = EditorGUILayout.IntField("Maze Width", mazeWidth);
+        mazeHeight = EditorGUILayout.IntField("Maze Height", mazeHeight);
 
         objectBaseName = mazeToolSO.baseNameForBlocks;
 
@@ -97,10 +100,10 @@ public class MazeTool : EditorWindow
 
 
 
-        
 
-        
-        Rect cameraRect = GUILayoutUtility.GetRect(0, 512, 0, 1028 );
+
+
+        Rect cameraRect = GUILayoutUtility.GetRect(0, 512, 0, 1028);
         //cameraRect = GUILayout.Window(1, cameraRect, DoWindow, "Yes");
         //cameraRect.position = new Vector2(0, 256);
         Handles.DrawCamera(cameraRect, blockCamera);
@@ -108,23 +111,39 @@ public class MazeTool : EditorWindow
 
 
 
-        
+
 
 
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
-        if (GUILayout.Button("Face Up", GUILayout.Width(80), GUILayout.Height(30))) { q = faceUpQ; }
+        if (GUILayout.Button("Face Up", GUILayout.Width(80), GUILayout.Height(30)))
+        {
+            q = faceUpQ;
+            selectedRotation = Rotation.Up;
+        }
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
-        if (GUILayout.Button("Face Left", GUILayout.Width(80), GUILayout.Height(30))) { q = faceLeftQ; }
-        if (GUILayout.Button("Face Right", GUILayout.Width(80), GUILayout.Height(30))) { q = faceRightQ; }
+        if (GUILayout.Button("Face Left", GUILayout.Width(80), GUILayout.Height(30)))
+        {
+            q = faceLeftQ;
+            selectedRotation = Rotation.Left;
+        }
+        if (GUILayout.Button("Face Right", GUILayout.Width(80), GUILayout.Height(30)))
+        {
+            q = faceRightQ;
+            selectedRotation = Rotation.Right;
+        }
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
-        if (GUILayout.Button("Face Down", GUILayout.Width(80), GUILayout.Height(30))) { q = faceDownQ; }
+        if (GUILayout.Button("Face Down", GUILayout.Width(80), GUILayout.Height(30)))
+        {
+            q = faceDownQ;
+            selectedRotation = Rotation.Down;
+        }
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
         GUILayout.Space(10);
@@ -144,13 +163,13 @@ public class MazeTool : EditorWindow
             ReplaceBlock();
         }
         GUILayout.EndHorizontal();
-        GUILayout.Space(10);       
+        GUILayout.Space(10);
 
         //delete all blocks
         if (GUILayout.Button("Delete all blocks"))
         {
             DeleteAllBlocks();
-        }       
+        }
 
         //if any changes are made in the tool
         if (GUI.changed)
@@ -176,15 +195,15 @@ public class MazeTool : EditorWindow
             Debug.Log("Assign a base name for the object");
             return;
         }
-        
+
         //replace in array
         createdMaze[xCoord, zCoord] = new Cell() { xPos = xCoord, zPos = zCoord, hasBeenChecked = true };
 
         //still need neighbours Cell[4], walls bool[4] and surroundingwalls int < 5
         mazeMaker.SetNeighbours(createdMaze[xCoord, zCoord]);
-        
+
         //set walls
-        SetWalls(createdMaze[xCoord, zCoord]);        
+        SetWalls(createdMaze[xCoord, zCoord]);
 
         //newBlock.name = objectBaseName + objectID;
         objectID++;
@@ -202,9 +221,10 @@ public class MazeTool : EditorWindow
         if (blockToSpawn.name == "FullCrossingBlock")
         {
             cell.surroundingWalls = 0;
+
             for (int i = 0; i < 4; i++)
             {
-                cell.walls[i] = false; 
+                cell.walls[i] = false;
             }
 
             for (int i = 0; i < 4; i++)
@@ -212,13 +232,59 @@ public class MazeTool : EditorWindow
                 if (cell.neighbours[i] != null)
                 {
                     CheckWalls(cell, cell.neighbours[i]);
-                } 
+                }
             }
         }
         //three walls next
+        if (blockToSpawn.name == "TCrossingBlock")
+        {
+            Debug.Log("Hep!");
+            cell.surroundingWalls = 1;
+
+            for (int i = 0; i < 4; i++)
+            {
+                cell.walls[i] = false;
+            }           
+
+            switch (selectedRotation)
+            {
+                case Rotation.Left:
+                    cell.walls[2] = true;
+                    break;
+                case Rotation.Up:
+                    cell.walls[3] = true;
+                    break;
+                case Rotation.Right:
+                    cell.walls[0] = true;
+                    break;
+                case Rotation.Down:
+                    cell.walls[1] = true;
+                    break;
+                default:
+                    break;
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (cell.neighbours[i] != null)
+                {
+                    CheckWalls(cell, cell.neighbours[i]);
+                }
+            }
+        }
+        //two walls
+        //corridors
+        //if (blockToSpawn.name == )
+        {
+
+        }
+        
+
+
 
 
     }
+
 
     private void CheckWalls(Cell cell, Cell neighbourCell)
     {
@@ -337,7 +403,7 @@ public class MazeTool : EditorWindow
 
         Vector3 spawnPos = new Vector3(xCoord * 8f, 0, zCoord * 8);
         GameObject newBlock = Instantiate(blockToSpawn, spawnPos, q);
-        
+
         newBlock.name = objectBaseName + objectID;
         objectID++;
     }

@@ -9,7 +9,6 @@ public class MazeGenerator : MonoBehaviour
     public Cell[,] CreateMaze(int givenWidth, int givenHeight)
     {
         //start with all the walls
-        //Debug.Log("GivenWidth: " + givenWidth + " GivenHeight: " + givenHeight);
         maze = CreateMazeWithOnlyWalls(givenWidth, givenHeight);
 
         //Start at a random cell
@@ -96,6 +95,7 @@ public class MazeGenerator : MonoBehaviour
             //remove wall from the top
             cell.walls[1] = false;
             cell.surroundingWalls--;
+            //need to also remove the corresponding wall from the other cell
             neighbourCell.walls[3] = false;
             neighbourCell.surroundingWalls--;
             return;
@@ -174,7 +174,6 @@ public class MazeGenerator : MonoBehaviour
             {
                 Cell cell = new Cell() { zPos = j, xPos = i };
                 maze[i, j] = cell;
-                //Debug.Log("Here: " + " i: " + i + " j: " + j);
             }
         }
         return maze;
