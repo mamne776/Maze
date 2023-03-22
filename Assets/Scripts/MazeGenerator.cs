@@ -9,7 +9,7 @@ public class MazeGenerator : MonoBehaviour
     public Cell[,] CreateMaze(int givenWidth, int givenHeight)
     {
         //start with all the walls
-        Debug.Log("GivenWidth: " + givenWidth + " GivenHeight: " + givenHeight);
+        //Debug.Log("GivenWidth: " + givenWidth + " GivenHeight: " + givenHeight);
         maze = CreateMazeWithOnlyWalls(givenWidth, givenHeight);
 
         //Start at a random cell
@@ -79,7 +79,6 @@ public class MazeGenerator : MonoBehaviour
             if (!cell.neighbours[checkThisNeighbour].hasBeenChecked)
             {
                 //remove the wall between the cells
-                Debug.Log("cell.xPos: " + cell.xPos + "cell.yPos: " + cell.yPos);
                 RemoveWallBetween(cell, cell.neighbours[checkThisNeighbour]);
                 //and recurse with this neighbour
                 MakePaths(cell.neighbours[checkThisNeighbour]);
@@ -90,13 +89,10 @@ public class MazeGenerator : MonoBehaviour
     //remove the wall between two given cells
     public void RemoveWallBetween(Cell cell, Cell neighbourCell)
     {
-        //Debug.Log(cell.xPos + ", " + cell.yPos);
         //when not on the top row
-        if (cell.yPos < neighbourCell.yPos)
-        {
-            //Debug.Log("cell.yPos: " + cell.yPos);            
-            Debug.Log("removing wall from the top");
-
+        if (cell.zPos < neighbourCell.zPos)
+        {          
+            //Debug.Log("removing wall from the top");
             //remove wall from the top
             cell.walls[1] = false;
             cell.surroundingWalls--;
@@ -105,9 +101,9 @@ public class MazeGenerator : MonoBehaviour
             return;
         }
 
-        if (cell.yPos > neighbourCell.yPos)
+        if (cell.zPos > neighbourCell.zPos)
         {
-            Debug.Log("removing wall from the bottom");
+            //Debug.Log("removing wall from the bottom");
             cell.walls[3] = false;
             cell.surroundingWalls--;
             neighbourCell.walls[1] = false;
@@ -117,7 +113,7 @@ public class MazeGenerator : MonoBehaviour
 
         if (cell.xPos < neighbourCell.xPos)
         {
-            Debug.Log("removing wall from the right");
+            //Debug.Log("removing wall from the right");
             cell.walls[2] = false;
             cell.surroundingWalls--;
             neighbourCell.walls[0] = false;
@@ -127,7 +123,7 @@ public class MazeGenerator : MonoBehaviour
 
         if (cell.xPos > neighbourCell.xPos)
         {
-            Debug.Log("removing wall from the left");
+            //Debug.Log("removing wall from the left");
             cell.walls[0] = false;
             cell.surroundingWalls--;
             neighbourCell.walls[2] = false;
@@ -140,7 +136,7 @@ public class MazeGenerator : MonoBehaviour
     public void SetNeighbours(Cell cellToCheck)
     {
         int x = cellToCheck.xPos;
-        int y = cellToCheck.yPos;        
+        int y = cellToCheck.zPos;        
 
         //neighbours[0] means the neighbour to the left, [1] is the one above, [2] to the right and [4] below
 
@@ -176,9 +172,9 @@ public class MazeGenerator : MonoBehaviour
         {
             for (int j = 0; j < height; j++)
             {
-                Cell cell = new Cell() { yPos = j, xPos = i };
+                Cell cell = new Cell() { zPos = j, xPos = i };
                 maze[i, j] = cell;
-                Debug.Log("Here: " + " i: " + i + " j: " + j);
+                //Debug.Log("Here: " + " i: " + i + " j: " + j);
             }
         }
         return maze;

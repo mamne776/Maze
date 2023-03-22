@@ -61,12 +61,12 @@ public class MazePrinter : MonoBehaviour
     private void PrintTest()
     {
         Cell[,] testMaze = new Cell[3, 2];
-        testMaze[0, 0] = new Cell { xPos = 0, yPos = 0, hasBeenChecked = true, surroundingWalls = 2, walls = new bool[4] { true, false, false, true } };
-        testMaze[0, 1] = new Cell { xPos = 0, yPos = 0, hasBeenChecked = true, surroundingWalls = 2, walls = new bool[4] { true, false, false, true } };
-        testMaze[1, 0] = new Cell { xPos = 0, yPos = 0, hasBeenChecked = true, surroundingWalls = 2, walls = new bool[4] { true, false, false, true } };
-        testMaze[1, 1] = new Cell { xPos = 0, yPos = 0, hasBeenChecked = true, surroundingWalls = 2, walls = new bool[4] { true, false, false, true } };
-        testMaze[2, 0] = new Cell { xPos = 0, yPos = 0, hasBeenChecked = true, surroundingWalls = 2, walls = new bool[4] { true, false, false, true } };
-        testMaze[2, 1] = new Cell { xPos = 0, yPos = 0, hasBeenChecked = true, surroundingWalls = 2, walls = new bool[4] { true, false, false, true } };
+        testMaze[0, 0] = new Cell { xPos = 0, zPos = 0, hasBeenChecked = true, surroundingWalls = 2, walls = new bool[4] { true, false, false, true } };
+        testMaze[0, 1] = new Cell { xPos = 0, zPos = 0, hasBeenChecked = true, surroundingWalls = 2, walls = new bool[4] { true, false, false, true } };
+        testMaze[1, 0] = new Cell { xPos = 0, zPos = 0, hasBeenChecked = true, surroundingWalls = 2, walls = new bool[4] { true, false, false, true } };
+        testMaze[1, 1] = new Cell { xPos = 0, zPos = 0, hasBeenChecked = true, surroundingWalls = 2, walls = new bool[4] { true, false, false, true } };
+        testMaze[2, 0] = new Cell { xPos = 0, zPos = 0, hasBeenChecked = true, surroundingWalls = 2, walls = new bool[4] { true, false, false, true } };
+        testMaze[2, 1] = new Cell { xPos = 0, zPos = 0, hasBeenChecked = true, surroundingWalls = 2, walls = new bool[4] { true, false, false, true } };
         PrintMaze(testMaze);
     }
 

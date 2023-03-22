@@ -176,37 +176,15 @@ public class MazeTool : EditorWindow
             Debug.Log("Assign a base name for the object");
             return;
         }
-
-        Debug.Log("Block to spawn: " + blockToSpawn);
-
-        Vector3 spawnPos = new Vector3(xCoord * 8f, 0, zCoord * 8);
-        //GameObject newBlock = Instantiate(blockToSpawn, spawnPos, q);
-
-        //new stuff
+        
         //replace in array
-        createdMaze[zCoord, xCoord] = new Cell() { xPos = xCoord, yPos = zCoord, hasBeenChecked = true };
+        createdMaze[xCoord, zCoord] = new Cell() { xPos = xCoord, zPos = zCoord, hasBeenChecked = true };
 
         //still need neighbours Cell[4], walls bool[4] and surroundingwalls int < 5
-        mazeMaker.SetNeighbours(createdMaze[zCoord, xCoord]);
+        mazeMaker.SetNeighbours(createdMaze[xCoord, zCoord]);
+        
         //set walls
-        SetWalls(createdMaze[zCoord, xCoord]);
-
-        //NO STUPID
-        /*
-        //always wall on the top if on the top row
-        Debug.Log("heightpos: " + createdMaze[zCoord, xCoord].heightPos + ", createdMaze.GetLength(0): " + createdMaze.GetLength(0));
-        if (createdMaze[zCoord, xCoord].heightPos < createdMaze.GetLength(0))
-        {
-            //check the neighbours wall situation. if neighbour has wall there, so does this cell on the opposing edge            
-                createdMaze[zCoord, xCoord].walls[1] = createdMaze[zCoord + 1, xCoord].walls[3];            
-        }
-
-        //always wall on bottom if on the bottom row
-        if (createdMaze[zCoord, xCoord].heightPos > 0)
-        {
-            createdMaze[zCoord, xCoord].walls[3] = createdMaze[zCoord - 1, xCoord].walls[1];
-        }
-        */
+        SetWalls(createdMaze[xCoord, zCoord]);        
 
         //newBlock.name = objectBaseName + objectID;
         objectID++;
@@ -217,54 +195,131 @@ public class MazeTool : EditorWindow
         //
     }
 
-
     //lets get this working on the simplest case first, ie. a full crossing
     private void SetWalls(Cell cell)
     {
-        int x = cell.xPos;
-        int z = cell.yPos;
-
+        //no walls
         if (blockToSpawn.name == "FullCrossingBlock")
         {
-            Debug.Log("hep");
+            cell.surroundingWalls = 0;
+            for (int i = 0; i < 4; i++)
+            {
+                cell.walls[i] = false; 
+            }
 
             for (int i = 0; i < 4; i++)
             {
                 if (cell.neighbours[i] != null)
                 {
-                    mazeMaker.RemoveWallBetween(cell, cell.neighbours[i]);
-
+                    CheckWalls(cell, cell.neighbours[i]);
                 } 
             }
-
-            /*
-            cell.surroundingWalls = 0;
-            for (int i = 0; i < 4; i++)
-            {
-                cell.walls[i] = false;
-            }
-
-            //cell not on the right edge
-            if (cell.widthPos < createdMaze.GetLength(1))
-            {
-                //remove wall on the right
-                createdMaze[z, x].walls[2] = false;
-                //remove the neighbours opposing wall
-                createdMaze[z, x + 1].walls[0] = false;
-            }
-            //cell not on the left edge
-            if (x > 0)
-            {
-                createdMaze[z, x].walls[2] = false;
-                createdMaze[z, x - 1].walls[0] = false;
-            }
-            //            
-            if (z > 0)
-            {
-                cell.walls[]
-            }
-            */
         }
+        //three walls next
+
+
+    }
+
+    private void CheckWalls(Cell cell, Cell neighbourCell)
+    {
+        //if cell to the left of its neighbour
+        if (cell.xPos < neighbourCell.xPos)
+        {
+            //has a wall on the right edge
+            if (cell.walls[2])
+            {
+                //but the neighbour doesnt have a wall on its left edge
+                if (!neighbourCell.walls[0])
+                {
+                    neighbourCell.walls[0] = true;
+                    neighbourCell.surroundingWalls++;
+                }
+            }
+            //doesnt have a wall on the right edge
+            else
+            {
+                //but the neighbour does have a wall on its left edge
+                if (neighbourCell.walls[0])
+                {
+                    neighbourCell.walls[0] = false;
+                    neighbourCell.surroundingWalls--;
+                }
+            }
+        }
+        //if cell to the right of its neighbour
+        if (cell.xPos > neighbourCell.xPos)
+        {
+            //has a wall on the left edge
+            if (cell.walls[0])
+            {
+                //but the neighbour doesnt have a wall on its right edge
+                if (!neighbourCell.walls[2])
+                {
+                    neighbourCell.walls[2] = true;
+                    neighbourCell.surroundingWalls++;
+                }
+            }
+            //doesnt have a wall on the left edge
+            else
+            {
+                //but the neighbour does have a wall on its right edge
+                if (neighbourCell.walls[2])
+                {
+                    neighbourCell.walls[2] = false;
+                    neighbourCell.surroundingWalls--;
+                }
+            }
+        }
+        //if cell below its neighbour
+        if (cell.zPos < neighbourCell.zPos)
+        {
+            //has a wall on the top edge
+            if (cell.walls[1])
+            {
+                //but the neighbour doesnt have a wall on its bottom edge
+                if (!neighbourCell.walls[3])
+                {
+                    neighbourCell.walls[3] = true;
+                    neighbourCell.surroundingWalls++;
+                }
+            }
+            //doesnt have a wall on the top edge
+            else
+            {
+                //but the neighbour does have a wall on its bottom edge
+                if (neighbourCell.walls[3])
+                {
+                    neighbourCell.walls[3] = false;
+                    neighbourCell.surroundingWalls--;
+                }
+            }
+        }
+        //if cell abowe its neighbour
+        if (cell.zPos > neighbourCell.zPos)
+        {
+            //has a wall on the bottom edge
+            if (cell.walls[3])
+            {
+                //but the neighbour doesnt have a wall on its top edge
+                if (!neighbourCell.walls[1])
+                {
+                    neighbourCell.walls[1] = true;
+                    neighbourCell.surroundingWalls++;
+                }
+            }
+            //doesnt have a wall on the bottom edge
+            else
+            {
+                //but the neighbour does have a wall on its top edge
+                if (neighbourCell.walls[1])
+                {
+                    neighbourCell.walls[1] = false;
+                    neighbourCell.surroundingWalls--;
+                }
+            }
+        }
+
+
     }
 
     private void SpawnBlock()
