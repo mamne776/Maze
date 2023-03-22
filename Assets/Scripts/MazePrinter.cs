@@ -19,19 +19,15 @@ public class MazePrinter : MonoBehaviour
 
     //rotations
     private Quaternion faceLeftQ = Quaternion.Euler(0, -90, 0);
+    private Quaternion faceUpQ = Quaternion.Euler(0, 0, 0);
     private Quaternion faceRightQ = Quaternion.Euler(0, 90, 0);
     private Quaternion faceDownQ = Quaternion.Euler(0, 180, 0);
-    private Quaternion faceUpQ = Quaternion.Euler(0, 0, 0);
+
 
     // Start is called before the first frame update
     void Start()
     {
         Application.targetFrameRate = 30; //noise reduction :D
-
-        //faceLeftQ = Quaternion.Euler(0, -90, 0);
-        //faceRightQ = Quaternion.Euler(0, 90, 0);
-        //faceDownQ = Quaternion.Euler(0, 180, 0);
-        //faceUpQ = Quaternion.Euler(0, 0, 0);
     }
 
     // Update is called once per frame
@@ -39,13 +35,13 @@ public class MazePrinter : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.P))
         {
-            Cell[,] cellMaze = mazeGenerator.CreateMaze(12, 16);
+            Cell[,] cellMaze = mazeGenerator.CreateMaze(5, 3);
             PrintMaze(cellMaze);
         }
 
         if (Input.GetKeyUp(KeyCode.D))
         {
-            DestroyMaze();            
+            DestroyMaze();
         }
 
         if (Input.GetKeyUp(KeyCode.R))
@@ -53,25 +49,44 @@ public class MazePrinter : MonoBehaviour
             Cell[,] mazeWithRooms = mazeGenerator.CreateMazeWithRooms(12, 12);
             PrintMaze(mazeWithRooms);
         }
+
+        if (Input.GetKeyUp(KeyCode.T))
+        {
+            PrintTest();
+        }
+
+
+    }
+
+    private void PrintTest()
+    {
+        Cell[,] testMaze = new Cell[3, 2];
+        testMaze[0, 0] = new Cell { xPos = 0, yPos = 0, hasBeenChecked = true, surroundingWalls = 2, walls = new bool[4] { true, false, false, true } };
+        testMaze[0, 1] = new Cell { xPos = 0, yPos = 0, hasBeenChecked = true, surroundingWalls = 2, walls = new bool[4] { true, false, false, true } };
+        testMaze[1, 0] = new Cell { xPos = 0, yPos = 0, hasBeenChecked = true, surroundingWalls = 2, walls = new bool[4] { true, false, false, true } };
+        testMaze[1, 1] = new Cell { xPos = 0, yPos = 0, hasBeenChecked = true, surroundingWalls = 2, walls = new bool[4] { true, false, false, true } };
+        testMaze[2, 0] = new Cell { xPos = 0, yPos = 0, hasBeenChecked = true, surroundingWalls = 2, walls = new bool[4] { true, false, false, true } };
+        testMaze[2, 1] = new Cell { xPos = 0, yPos = 0, hasBeenChecked = true, surroundingWalls = 2, walls = new bool[4] { true, false, false, true } };
+        PrintMaze(testMaze);
     }
 
     public void PrintMaze(Cell[,] givenMaze)
     {
-        int h = givenMaze.GetLength(0);
-        int w = givenMaze.GetLength(1);
+        int mazeWidth = givenMaze.GetLength(0);
+        int mazeHeight = givenMaze.GetLength(1);
 
         Quaternion q = Quaternion.identity;
 
-        for (int i = 0; i < h; i++)
+        for (int i = 0; i < mazeWidth; i++)
         {
-            for (int j = 0; j < w; j++)
+            for (int j = 0; j < mazeHeight; j++)
             {
                 //Debug.Log(givenMaze[i, j].walls[0] + ", " + givenMaze[i, j].walls[1] + ", " + givenMaze[i, j].walls[2] + ", " + givenMaze[i, j].walls[3]);
                 switch (givenMaze[i, j].surroundingWalls)
                 {
                     //no walls, ie. a crossing
                     case 0:
-                        GameObject.Instantiate(crossingPiece, new Vector3(j * 8f, 0, i * 8f), Quaternion.identity);
+                        GameObject.Instantiate(crossingPiece, new Vector3(i * 8f, 0, j * 8f), Quaternion.identity);
                         break;
 
                     //one wall
@@ -81,7 +96,7 @@ public class MazePrinter : MonoBehaviour
                         if (givenMaze[i, j].walls[2] == true) q = faceLeftQ;
                         if (givenMaze[i, j].walls[3] == true) q = faceUpQ;
 
-                        GameObject.Instantiate(threeWayPiece, new Vector3(j * 8f, 0, i * 8f), q);
+                        GameObject.Instantiate(threeWayPiece, new Vector3(i * 8f, 0, j * 8f), q);
                         break;
 
                     //two walls
@@ -89,12 +104,12 @@ public class MazePrinter : MonoBehaviour
                         //corridors
                         if (givenMaze[i, j].walls[0] == false && givenMaze[i, j].walls[2] == false)
                         {
-                            GameObject.Instantiate(straightHallway, new Vector3(j * 8f, 0, i * 8f), faceRightQ);
+                            GameObject.Instantiate(straightHallway, new Vector3(i * 8f, 0, j * 8f), faceRightQ);
                             break;
                         }
                         if (givenMaze[i, j].walls[1] == false && givenMaze[i, j].walls[3] == false)
                         {
-                            GameObject.Instantiate(straightHallway, new Vector3(j * 8f, 0, i * 8f), faceUpQ);
+                            GameObject.Instantiate(straightHallway, new Vector3(i * 8f, 0, j * 8f), faceUpQ);
                             break;
                         }
 
@@ -113,11 +128,12 @@ public class MazePrinter : MonoBehaviour
 
                         //Debug.Log("Rotation set!");
                         //Debug.Log(q);
-                        GameObject.Instantiate(cornerPiece, new Vector3(j * 8f, 0, i * 8f), q);
+                        GameObject.Instantiate(cornerPiece, new Vector3(i * 8f, 0, j * 8f), q);
                         break;
 
                     case 3:
-                        //deadend
+                        //deadend 
+                        //j = y
                         if (givenMaze[i, j].walls[0] == false)
                         {
                             q = faceLeftQ;
@@ -143,16 +159,16 @@ public class MazePrinter : MonoBehaviour
                             //Debug.Log("faceDownQ: " + faceDownQ);
                         }
 
-                        GameObject.Instantiate(deadEndPiece, new Vector3(j * 8f, 0, i * 8f), q);
+                        GameObject.Instantiate(deadEndPiece, new Vector3(i * 8f, 0, j * 8f), q);
                         break;
 
                     //four walls, ie. a solid block
                     case 4:
-                        GameObject.Instantiate(basicHallWayPiece, new Vector3(j * 8f, 0, i * 8f), Quaternion.identity);
+                        GameObject.Instantiate(basicHallWayPiece, new Vector3(i * 8f, 0, j * 8f), Quaternion.identity);
                         break;
 
                     default:
-                    break;
+                        break;
                 }
             }
         }
