@@ -76,7 +76,7 @@ public class MazeTool : EditorWindow
         //create and print a maze
         if (GUILayout.Button("MakeMaze"))
         {
-            createdMaze = mazeMaker.CreateMaze(mazeHeight, mazeWidth);
+            createdMaze = mazeMaker.CreateMaze(mazeWidth, mazeHeight);
             mazePrinter.PrintMaze(createdMaze);
         }
 
@@ -184,7 +184,7 @@ public class MazeTool : EditorWindow
 
         //new stuff
         //replace in array
-        createdMaze[zCoord, xCoord] = new Cell() { widthPos = xCoord, heightPos = zCoord, hasBeenChecked = true };
+        createdMaze[zCoord, xCoord] = new Cell() { xPos = xCoord, yPos = zCoord, hasBeenChecked = true };
 
         //still need neighbours Cell[4], walls bool[4] and surroundingwalls int < 5
         mazeMaker.SetNeighbours(createdMaze[zCoord, xCoord]);
@@ -221,13 +221,23 @@ public class MazeTool : EditorWindow
     //lets get this working on the simplest case first, ie. a full crossing
     private void SetWalls(Cell cell)
     {
-        int x = cell.widthPos;
-        int z = cell.heightPos;
+        int x = cell.xPos;
+        int z = cell.yPos;
 
         if (blockToSpawn.name == "FullCrossingBlock")
         {
             Debug.Log("hep");
 
+            for (int i = 0; i < 4; i++)
+            {
+                if (cell.neighbours[i] != null)
+                {
+                    mazeMaker.RemoveWallBetween(cell, cell.neighbours[i]);
+
+                } 
+            }
+
+            /*
             cell.surroundingWalls = 0;
             for (int i = 0; i < 4; i++)
             {
@@ -248,9 +258,7 @@ public class MazeTool : EditorWindow
                 createdMaze[z, x].walls[2] = false;
                 createdMaze[z, x - 1].walls[0] = false;
             }
-
-            //
-            /*
+            //            
             if (z > 0)
             {
                 cell.walls[]
