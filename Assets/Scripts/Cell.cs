@@ -6,7 +6,7 @@ using UnityEngine;
 public class Cell
 {
     //height and width -> coordinates
-    public int yPos;
+    public int zPos;
     public int xPos;
     public int surroundingWalls;
     public bool hasBeenChecked;
@@ -22,7 +22,7 @@ public class Cell
     public Cell()
     {
         xPos = 0;
-        yPos = 0;
+        zPos = 0;
         hasBeenChecked = false;
         neighbours = new Cell[4] { null, null, null, null };
         //in the beginning the cell has all of its walls
