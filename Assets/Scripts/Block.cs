@@ -5,6 +5,22 @@ using UnityEngine;
 [SelectionBase]
 public class Block : MonoBehaviour
 {
+    public enum BlockType
+    {
+        Block,
+        BasicBlock,
+        CornerBlock,
+        DeadEndBlock,
+        FullBlock,
+        FullCrossingBlock,
+        HallwayBlock,
+        TCrossingBlock
+    };
+
+    public BlockType blockType; 
+
+
+
     // Start is called before the first frame update
     void Start()
     {

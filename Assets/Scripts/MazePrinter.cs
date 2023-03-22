@@ -115,25 +115,19 @@ public class MazePrinter : MonoBehaviour
 
                         //corner pieces
                         //no wall left and top
-                        if (givenMaze[i, j].walls[0] == false && givenMaze[i, j].walls[1] == false) q = faceLeftQ;
-                        //Debug.Log("No wall left and top");
-                        //Debug.Log(q);
+                        if (givenMaze[i, j].walls[0] == false && givenMaze[i, j].walls[1] == false) q = faceLeftQ;                        
                         //no wall top and right
                         if (givenMaze[i, j].walls[1] == false && givenMaze[i, j].walls[2] == false) q = faceUpQ;
-                        //Debug.Log("No wall top and right");
                         //no wall right and bottom
                         if (givenMaze[i, j].walls[2] == false && givenMaze[i, j].walls[3] == false) q = faceRightQ;
                         //no wall bottom and left
                         if (givenMaze[i, j].walls[3] == false && givenMaze[i, j].walls[0] == false) q = faceDownQ;
 
-                        //Debug.Log("Rotation set!");
-                        //Debug.Log(q);
                         GameObject.Instantiate(cornerPiece, new Vector3(i * 8f, 0, j * 8f), q);
                         break;
 
                     case 3:
                         //deadend 
-                        //j = y
                         if (givenMaze[i, j].walls[0] == false)
                         {
                             q = faceLeftQ;
@@ -182,5 +176,4 @@ public class MazePrinter : MonoBehaviour
             Destroy(item);
         }
     }
-
 }
