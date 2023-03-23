@@ -11,6 +11,9 @@ public class MazePrinter : MonoBehaviour
     public GameObject deadEndPiece;
     public GameObject crossingPiece;
 
+    [Header("MazeGameObject")]
+    public GameObject mazeGO;
+
     [Header("Rooms")]
     public GameObject room;
 
@@ -70,8 +73,21 @@ public class MazePrinter : MonoBehaviour
         PrintMaze(testMaze);
     }
 
+    /*
+    public void CreateMazeGameObject(Cell[,] givenMaze)
+    {
+
+    }
+    */
+
     public void PrintMaze(Cell[,] givenMaze)
     {
+        if (mazeGO == null)
+        {
+            mazeGO = new GameObject("MazeGO");
+        }
+        
+
         int mazeWidth = givenMaze.GetLength(0);
         int mazeHeight = givenMaze.GetLength(1);
 
@@ -86,7 +102,9 @@ public class MazePrinter : MonoBehaviour
                 {
                     //no walls, ie. a crossing
                     case 0:
-                        GameObject.Instantiate(crossingPiece, new Vector3(i * 8f, 0, j * 8f), Quaternion.identity);
+                        GameObject blockToInstantiate = crossingPiece;
+                        blockToInstantiate.GetComponent<Block>().blockCell = givenMaze[i, j];
+                        GameObject.Instantiate(blockToInstantiate, new Vector3(i * 8f, 0, j * 8f), Quaternion.identity, mazeGO.transform );
                         break;
 
                     //one wall
@@ -96,7 +114,7 @@ public class MazePrinter : MonoBehaviour
                         if (givenMaze[i, j].walls[2] == true) q = faceLeftQ;
                         if (givenMaze[i, j].walls[3] == true) q = faceUpQ;
 
-                        GameObject.Instantiate(threeWayPiece, new Vector3(i * 8f, 0, j * 8f), q);
+                        GameObject.Instantiate(threeWayPiece, new Vector3(i * 8f, 0, j * 8f), q, mazeGO.transform);
                         break;
 
                     //two walls
@@ -104,12 +122,12 @@ public class MazePrinter : MonoBehaviour
                         //corridors
                         if (givenMaze[i, j].walls[0] == false && givenMaze[i, j].walls[2] == false)
                         {
-                            GameObject.Instantiate(straightHallway, new Vector3(i * 8f, 0, j * 8f), faceRightQ);
+                            GameObject.Instantiate(straightHallway, new Vector3(i * 8f, 0, j * 8f), faceRightQ, mazeGO.transform);
                             break;
                         }
                         if (givenMaze[i, j].walls[1] == false && givenMaze[i, j].walls[3] == false)
                         {
-                            GameObject.Instantiate(straightHallway, new Vector3(i * 8f, 0, j * 8f), faceUpQ);
+                            GameObject.Instantiate(straightHallway, new Vector3(i * 8f, 0, j * 8f), faceUpQ, mazeGO.transform);
                             break;
                         }
 
@@ -123,7 +141,7 @@ public class MazePrinter : MonoBehaviour
                         //no wall bottom and left
                         if (givenMaze[i, j].walls[3] == false && givenMaze[i, j].walls[0] == false) q = faceDownQ;
 
-                        GameObject.Instantiate(cornerPiece, new Vector3(i * 8f, 0, j * 8f), q);
+                        GameObject.Instantiate(cornerPiece, new Vector3(i * 8f, 0, j * 8f), q, mazeGO.transform);
                         break;
 
                     case 3:
@@ -153,12 +171,12 @@ public class MazePrinter : MonoBehaviour
                             //Debug.Log("faceDownQ: " + faceDownQ);
                         }
 
-                        GameObject.Instantiate(deadEndPiece, new Vector3(i * 8f, 0, j * 8f), q);
+                        GameObject.Instantiate(deadEndPiece, new Vector3(i * 8f, 0, j * 8f), q, mazeGO.transform);
                         break;
 
                     //four walls, ie. a solid block
                     case 4:
-                        GameObject.Instantiate(basicHallWayPiece, new Vector3(i * 8f, 0, j * 8f), Quaternion.identity);
+                        GameObject.Instantiate(basicHallWayPiece, new Vector3(i * 8f, 0, j * 8f), Quaternion.identity, mazeGO.transform);
                         break;
 
                     default:

@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.IO;
 
 public class MazeTool : EditorWindow
 {
     Editor editor;
 
-    public GameObject mazeGO;
+    public GameObject mazeUnderWorkGO;
 
     private Camera blockCamera;
 
@@ -87,16 +88,17 @@ public class MazeTool : EditorWindow
 
 
         GUILayout.Label("Current maze: ", EditorStyles.boldLabel);
-        mazeGO = EditorGUILayout.ObjectField(mazeGO, typeof(GameObject), true) as GameObject;
+        mazeUnderWorkGO = EditorGUILayout.ObjectField(mazeUnderWorkGO, typeof(GameObject), true) as GameObject;
 
 
 
-        
+
         //create and print a maze, put it in the mazeGameObject
         if (GUILayout.Button("MakeMaze"))
         {
             createdMaze = mazeMaker.CreateMaze(mazeWidth, mazeHeight);
             mazePrinter.PrintMaze(createdMaze);
+            mazeUnderWorkGO = mazePrinter.mazeGO;
         }
 
 
@@ -196,6 +198,12 @@ public class MazeTool : EditorWindow
         GUILayout.EndHorizontal();
         GUILayout.Space(10);
 
+        //save current maze (as a prefab)
+        if (GUILayout.Button("Save Maze"))
+        {
+            SaveMaze();
+        }
+
         //delete all blocks
         if (GUILayout.Button("Delete all blocks"))
         {
@@ -212,6 +220,26 @@ public class MazeTool : EditorWindow
     private void OnSelectionChange()
     {
         //Debug.Log("Selection change");
+    }
+
+    private void SaveMaze()
+    {
+        if (!Directory.Exists("Assets/Mazes"))
+        {
+            AssetDatabase.CreateFolder("Assets", "Mazes");
+        }
+        string localPath = "Assets/Mazes/" + mazeUnderWorkGO.name + ".prefab";
+
+        localPath = AssetDatabase.GenerateUniqueAssetPath(localPath);
+
+        PrefabUtility.SaveAsPrefabAsset(mazeUnderWorkGO, localPath);
+    }
+
+
+    private void DrawCurrentMaze()
+    {
+        Cell[,] mazeToPrint;
+        //mazePrinter.PrintMaze()
     }
 
     private void ReplaceBlock()
