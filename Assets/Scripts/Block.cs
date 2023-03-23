@@ -14,7 +14,11 @@ public class Block : MonoBehaviour
         FullBlock,
         FullCrossingBlock,
         HallwayBlock,
-        TCrossingBlock
+        TCrossingBlock,
+        RoomCornerBlock,
+        RoomWallBlock,
+        RoomWallWithOpeningBlock,
+        Floor4x4Block
     };
 
     public BlockType blockType; 
