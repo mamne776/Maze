@@ -7,6 +7,8 @@ public class MazeTool : EditorWindow
 {
     Editor editor;
 
+    public GameObject mazeGO;
+
     private Camera blockCamera;
 
     private MazeGenerator mazeMaker;
@@ -31,10 +33,8 @@ public class MazeTool : EditorWindow
     Quaternion q;
 
     int index = 0;
-    //string[] options = new string[] { "test", "test2", "test3" };
-    //string[] options = new string[];
 
-    Rect windowRect = new Rect(100, 100, 200, 200);
+    //Rect windowRect = new Rect(100, 100, 200, 200);
 
     enum Rotation { None, Left, Up, Right, Down };
     Rotation selectedRotation = Rotation.Up;
@@ -76,12 +76,43 @@ public class MazeTool : EditorWindow
         Quaternion faceDownQ = Quaternion.Euler(0, 180, 0);
         Quaternion faceUpQ = Quaternion.Euler(0, 0, 0);
 
-        //create and print a maze
+
+
+
+
+
+
+
+
+
+
+        GUILayout.Label("Current maze: ", EditorStyles.boldLabel);
+        mazeGO = EditorGUILayout.ObjectField(mazeGO, typeof(GameObject), true) as GameObject;
+
+
+
+        
+        //create and print a maze, put it in the mazeGameObject
         if (GUILayout.Button("MakeMaze"))
         {
             createdMaze = mazeMaker.CreateMaze(mazeWidth, mazeHeight);
             mazePrinter.PrintMaze(createdMaze);
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         GUILayout.Label("Spawn a block", EditorStyles.boldLabel);
         objectBaseName = EditorGUILayout.TextField("Base Name", objectBaseName);
@@ -400,9 +431,6 @@ public class MazeTool : EditorWindow
                 }
             }
         }
-        //full block
-
-
     }
 
 
@@ -504,8 +532,6 @@ public class MazeTool : EditorWindow
                 }
             }
         }
-
-
     }
 
     private void SpawnBlock()
