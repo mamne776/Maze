@@ -21,7 +21,9 @@ public class Block : MonoBehaviour
         Floor4x4Block
     };
 
-    public BlockType blockType; 
+    public BlockType blockType;
+
+    public Cell blockCell;
 
 
 
