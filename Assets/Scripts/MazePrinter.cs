@@ -97,14 +97,13 @@ public class MazePrinter : MonoBehaviour
         {
             for (int j = 0; j < mazeHeight; j++)
             {
+                //GameObject blockToInstantiate;
                 //Debug.Log(givenMaze[i, j].walls[0] + ", " + givenMaze[i, j].walls[1] + ", " + givenMaze[i, j].walls[2] + ", " + givenMaze[i, j].walls[3]);
                 switch (givenMaze[i, j].surroundingWalls)
                 {
                     //no walls, ie. a crossing
-                    case 0:
-                        GameObject blockToInstantiate = crossingPiece;
-                        blockToInstantiate.GetComponent<Block>().blockCell = givenMaze[i, j];
-                        GameObject.Instantiate(blockToInstantiate, new Vector3(i * 8f, 0, j * 8f), Quaternion.identity, mazeGO.transform );
+                    case 0:                        
+                        GameObject.Instantiate(crossingPiece, new Vector3(i * 8f, 0, j * 8f), Quaternion.identity, mazeGO.transform );
                         break;
 
                     //one wall

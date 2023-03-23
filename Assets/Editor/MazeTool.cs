@@ -238,7 +238,7 @@ public class MazeTool : EditorWindow
 
     private void DrawCurrentMaze()
     {
-        Cell[,] mazeToPrint;
+        //Cell[,] mazeToPrint;
         //mazePrinter.PrintMaze()
     }
 
