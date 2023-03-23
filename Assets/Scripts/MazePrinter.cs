@@ -41,7 +41,7 @@ public class MazePrinter : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.D))
         {
-            DestroyMaze();
+            DestroyAllBlocks();
         }
 
         if (Input.GetKeyUp(KeyCode.R))
@@ -168,7 +168,7 @@ public class MazePrinter : MonoBehaviour
         }
     }
 
-    public void DestroyMaze()
+    public void DestroyAllBlocks()
     {
         GameObject[] destroyThese = GameObject.FindGameObjectsWithTag("Block");
         foreach (var item in destroyThese)
