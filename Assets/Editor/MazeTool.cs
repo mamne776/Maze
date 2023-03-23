@@ -214,11 +214,11 @@ public class MazeTool : EditorWindow
         //
     }
 
-    //lets get this working on the simplest case first, ie. a full crossing
+    //
     private void SetWalls(Cell cell)
     {
         //no walls
-        if (blockToSpawn.name == "FullCrossingBlock")
+        if (blockToSpawn.GetComponent<Block>().blockType == Block.BlockType.FullCrossingBlock)
         {
             cell.surroundingWalls = 0;
 
@@ -235,16 +235,15 @@ public class MazeTool : EditorWindow
                 }
             }
         }
-        //three walls next
-        if (blockToSpawn.name == "TCrossingBlock")
+        //one wall
+        if (blockToSpawn.GetComponent<Block>().blockType == Block.BlockType.TCrossingBlock)
         {
-            Debug.Log("Hep!");
             cell.surroundingWalls = 1;
 
             for (int i = 0; i < 4; i++)
             {
                 cell.walls[i] = false;
-            }           
+            }
 
             switch (selectedRotation)
             {
@@ -272,15 +271,136 @@ public class MazeTool : EditorWindow
                 }
             }
         }
+
         //two walls
-        //corridors
-        //if (blockToSpawn.name == )
+        //Hallways
+        if (blockToSpawn.GetComponent<Block>().blockType == Block.BlockType.HallwayBlock)
         {
+            cell.surroundingWalls = 2;
 
+            if (selectedRotation == Rotation.Up || selectedRotation == Rotation.Down)
+            {
+                cell.walls[0] = true;
+                cell.walls[1] = false;
+                cell.walls[2] = true;
+                cell.walls[3] = false;
+            }
+
+            if (selectedRotation == Rotation.Left || selectedRotation == Rotation.Right)
+            {
+                cell.walls[0] = false;
+                cell.walls[1] = true;
+                cell.walls[2] = false;
+                cell.walls[3] = true;
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (cell.neighbours[i] != null)
+                {
+                    CheckWalls(cell, cell.neighbours[i]);
+                }
+            }
         }
-        
+        //Corners
+        if (blockToSpawn.GetComponent<Block>().blockType == Block.BlockType.CornerBlock)
+        {
+            cell.surroundingWalls = 2;
+            if (selectedRotation == Rotation.Left)
+            {
+                cell.walls[0] = false;
+                cell.walls[1] = false;
+                cell.walls[2] = true;
+                cell.walls[3] = true;
+            }
+            if (selectedRotation == Rotation.Up)
+            {
+                cell.walls[0] = true;
+                cell.walls[1] = false;
+                cell.walls[2] = false;
+                cell.walls[3] = true;
+            }
+            if (selectedRotation == Rotation.Right)
+            {
+                cell.walls[0] = true;
+                cell.walls[1] = true;
+                cell.walls[2] = false;
+                cell.walls[3] = false;
+            }
+            if (selectedRotation == Rotation.Down)
+            {
+                cell.walls[0] = false;
+                cell.walls[1] = true;
+                cell.walls[2] = true;
+                cell.walls[3] = false;
+            }
 
+            for (int i = 0; i < 4; i++)
+            {
+                if (cell.neighbours[i] != null)
+                {
+                    CheckWalls(cell, cell.neighbours[i]);
+                }
+            }
+        }
 
+        //three walls
+        if (blockToSpawn.GetComponent<Block>().blockType == Block.BlockType.DeadEndBlock)
+        {
+            cell.surroundingWalls = 3;
+            for (int i = 0; i < 4; i++)
+            {
+                cell.walls[i] = true;
+            }
+
+            switch (selectedRotation)
+            {
+                case Rotation.None:
+                    break;
+                case Rotation.Left:
+                    cell.walls[0] = false;
+                    break;
+                case Rotation.Up:
+                    cell.walls[1] = false;
+                    break;
+                case Rotation.Right:
+                    cell.walls[2] = false;
+                    break;
+                case Rotation.Down:
+                    cell.walls[3] = false;
+                    break;
+                default:
+                    break;
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (cell.neighbours[i] != null)
+                {
+                    CheckWalls(cell, cell.neighbours[i]);
+                }
+            }
+        }
+
+        //four walls
+        //hollow block
+        if (blockToSpawn.GetComponent<Block>().blockType == Block.BlockType.FullBlock)
+        {
+            cell.surroundingWalls = 4;
+            for (int i = 0; i < 4; i++)
+            {
+                cell.walls[i] = true;
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (cell.neighbours[i] != null)
+                {
+                    CheckWalls(cell, cell.neighbours[i]);
+                }
+            }
+        }
+        //full block
 
 
     }
