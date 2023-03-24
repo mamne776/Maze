@@ -166,6 +166,13 @@ public class MazeTool : EditorWindow
 
         //-------------------------------------------------------------------------------------
 
+
+
+        if (GUILayout.Button("Highlight blocks floor"))
+        {
+            HighLightFloor(mazeUnderWorkGO.GetComponent<Block>());
+        }
+
         if (GUILayout.Button("Save Maze as SO"))
         {
             SaveMazeAsScriptableObject();
@@ -190,6 +197,12 @@ public class MazeTool : EditorWindow
     }
 
     //---------------------------------------------------------------------------------------------------
+
+
+    private void HighLightFloor(Block block)
+    {
+        //block.GetComponent<Material>().color = Color.green;
+    }
 
     private void OnSelectionChange()
     {
@@ -219,7 +232,7 @@ public class MazeTool : EditorWindow
         mazePrinter.PrintMaze(givenMazeSO.mazeCells);
     }
 
-
+    /*
     private void SaveMaze()
     {
         if (!Directory.Exists("Assets/Mazes"))
@@ -232,13 +245,7 @@ public class MazeTool : EditorWindow
 
         PrefabUtility.SaveAsPrefabAsset(mazeUnderWorkGO, localPath);
     }
-
-
-    private void DrawCurrentMaze()
-    {
-        //Cell[,] mazeToPrint;
-        //mazePrinter.PrintMaze()
-    }
+    */
 
     private void ReplaceBlock()
     {
@@ -577,6 +584,10 @@ public class MazeTool : EditorWindow
         GameObject newBlock = Instantiate(blockToSpawn, spawnPos, q);
 
         newBlock.name = objectBaseName + objectID;
+
+        //newBlock.GetComponentInChildren<Renderer>().sharedMaterial.color = Color.green;
+        //newBlock.GetComponent<Material>().color = Color.green;
+
         objectID++;
     }
 

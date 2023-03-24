@@ -6,8 +6,5 @@ public class MazeSO : ScriptableObject
 {
     public Cell[,] mazeCells;
 
-    //will prob need this after customization of blocks possible
-    //public Block[,] mazeBlocks;
-   
-
+    public Block[,] mazeBlocks;
 }
