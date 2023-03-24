@@ -12,5 +12,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d78c791123b79b843a7c9619d9d5575e, type: 3}
   m_Name: MazeGO 1
   m_EditorClassIdentifier: 
-  mazeWidth: 5
-  mazeHeight: 3

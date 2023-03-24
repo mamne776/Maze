@@ -23,4 +23,7 @@ public class Block : MonoBehaviour
 
     public BlockType blockType;
 
+    public bool isStartPoint, isEndPoint;
+
+
 }
