@@ -15,10 +15,13 @@ public class Cell
     
     //neighbouring cells
     public Cell[] neighbours; //0 is left, 1 is up, 2 is right and 3 is down
-    //public bool[] walls; //true means that the cell has a wall in the corresponding edge, walls[0] = top edge, walls[1] = right etc. 
-    
+    //public bool[] walls; //true means that the cell has a wall in the corresponding edge, walls[0] = top edge, walls[1] = right etc.     
     
     public bool[] walls; //true means that the cell has a wall in the corresponding edge, walls[0] = left edge, walls[1] = top etc. 
+    
+   
+    //do i really need this?    
+    //public Block block;
 
     public Cell()
     {
