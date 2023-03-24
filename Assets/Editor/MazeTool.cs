@@ -10,6 +10,8 @@ public class MazeTool : EditorWindow
 
     public GameObject mazeUnderWorkGO;
 
+    public ScriptableObject currentMazeSO;
+
     private Camera blockCamera;
 
     private MazeGenerator mazeMaker;
@@ -90,7 +92,8 @@ public class MazeTool : EditorWindow
         GUILayout.Label("Current maze: ", EditorStyles.boldLabel);
         mazeUnderWorkGO = EditorGUILayout.ObjectField(mazeUnderWorkGO, typeof(GameObject), true) as GameObject;
 
-
+        GUILayout.Label("Current Maze as Scriptable Object: ", EditorStyles.boldLabel);
+        currentMazeSO = EditorGUILayout.ObjectField(currentMazeSO, typeof(ScriptableObject), true) as ScriptableObject;
 
 
         //create and print a maze, put it in the mazeGameObject
@@ -198,10 +201,17 @@ public class MazeTool : EditorWindow
         GUILayout.EndHorizontal();
         GUILayout.Space(10);
 
+        /*
         //save current maze (as a prefab)
         if (GUILayout.Button("Save Maze"))
         {
             SaveMaze();
+        }
+        */
+
+        if (GUILayout.Button("Save Maze as SO"))
+        {
+            SaveMazeAsScriptableObject();
         }
 
         //delete all blocks
@@ -221,6 +231,33 @@ public class MazeTool : EditorWindow
     {
         //Debug.Log("Selection change");
     }
+
+    private void SaveMazeAsScriptableObject()
+    { 
+        if(!Directory.Exists("Assets/Mazes"))
+        {
+            AssetDatabase.CreateFolder("Assets", "Mazes");
+        }
+        string localPath = "Assets/Mazes/" + mazeUnderWorkGO.name + ".asset";
+
+        localPath = AssetDatabase.GenerateUniqueAssetPath(localPath);
+
+        MazeSO mazeSO = ScriptableObject.CreateInstance<MazeSO>();
+
+        mazeSO.mazeWidth = createdMaze.GetLength(0);
+        mazeSO.mazeHeight = createdMaze.GetLength(1);
+
+        mazeSO.mazeCells = createdMaze;
+
+        AssetDatabase.CreateAsset(mazeSO, localPath);
+
+    }
+
+    private void LoadMazeFromScriptableObject(ScriptableObject givenMazeSO)
+    { 
+        
+    }
+
 
     private void SaveMaze()
     {

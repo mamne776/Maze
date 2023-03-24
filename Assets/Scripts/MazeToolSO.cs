@@ -13,16 +13,6 @@ public class MazeToolSO : ScriptableObject
     [Header("Camera for preview")]
     public Camera camera;
 
-    /*
-    //Blocks
-    [Header("Blocks")]
-    public GameObject basicBlock;
-    public GameObject deadEndBlock;
-    public GameObject hallwayBlock;
-    public GameObject cornerBlock;
-    public GameObject TBlock;
-    public GameObject crossingBlock;
-    */
-
+    //blocks used to print the maze
     public GameObject[] blocks;
 }
