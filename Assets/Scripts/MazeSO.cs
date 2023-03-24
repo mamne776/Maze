@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class MazeSO : ScriptableObject
 {
-    public int mazeWidth, mazeHeight;
-
     public Cell[,] mazeCells;
 
-
-
+    //will prob need this after customization of blocks possible
     //public Block[,] mazeBlocks;
    
 

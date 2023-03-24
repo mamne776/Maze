@@ -10,7 +10,7 @@ public class MazeTool : EditorWindow
 
     public GameObject mazeUnderWorkGO;
 
-    public ScriptableObject currentMazeSO;
+    public MazeSO currentMazeSO;
 
     private Camera blockCamera;
 
@@ -79,21 +79,11 @@ public class MazeTool : EditorWindow
         Quaternion faceDownQ = Quaternion.Euler(0, 180, 0);
         Quaternion faceUpQ = Quaternion.Euler(0, 0, 0);
 
-
-
-
-
-
-
-
-
-
-
         GUILayout.Label("Current maze: ", EditorStyles.boldLabel);
         mazeUnderWorkGO = EditorGUILayout.ObjectField(mazeUnderWorkGO, typeof(GameObject), true) as GameObject;
 
         GUILayout.Label("Current Maze as Scriptable Object: ", EditorStyles.boldLabel);
-        currentMazeSO = EditorGUILayout.ObjectField(currentMazeSO, typeof(ScriptableObject), true) as ScriptableObject;
+        currentMazeSO = EditorGUILayout.ObjectField(currentMazeSO, typeof(MazeSO), true) as MazeSO;
 
 
         //create and print a maze, put it in the mazeGameObject
@@ -103,21 +93,6 @@ public class MazeTool : EditorWindow
             mazePrinter.PrintMaze(createdMaze);
             mazeUnderWorkGO = mazePrinter.mazeGO;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         GUILayout.Label("Spawn a block", EditorStyles.boldLabel);
         objectBaseName = EditorGUILayout.TextField("Base Name", objectBaseName);
@@ -133,22 +108,10 @@ public class MazeTool : EditorWindow
         EditorGUI.EndChangeCheck();
         blockToSpawn = mazeToolSO.blocks[index];
 
-
-
-
-
-
-
         Rect cameraRect = GUILayoutUtility.GetRect(0, 512, 0, 1028);
         //cameraRect = GUILayout.Window(1, cameraRect, DoWindow, "Yes");
         //cameraRect.position = new Vector2(0, 256);
         Handles.DrawCamera(cameraRect, blockCamera);
-
-
-
-
-
-
 
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
@@ -201,17 +164,16 @@ public class MazeTool : EditorWindow
         GUILayout.EndHorizontal();
         GUILayout.Space(10);
 
-        /*
-        //save current maze (as a prefab)
-        if (GUILayout.Button("Save Maze"))
-        {
-            SaveMaze();
-        }
-        */
+        //-------------------------------------------------------------------------------------
 
         if (GUILayout.Button("Save Maze as SO"))
         {
             SaveMazeAsScriptableObject();
+        }
+
+        if (GUILayout.Button("Load Maze from Scriptable Object"))
+        {
+            LoadMazeFromScriptableObject(currentMazeSO);
         }
 
         //delete all blocks
@@ -226,6 +188,8 @@ public class MazeTool : EditorWindow
             //Debug.Log("GUI changed");
         }
     }
+
+    //---------------------------------------------------------------------------------------------------
 
     private void OnSelectionChange()
     {
@@ -244,18 +208,15 @@ public class MazeTool : EditorWindow
 
         MazeSO mazeSO = ScriptableObject.CreateInstance<MazeSO>();
 
-        mazeSO.mazeWidth = createdMaze.GetLength(0);
-        mazeSO.mazeHeight = createdMaze.GetLength(1);
-
         mazeSO.mazeCells = createdMaze;
 
         AssetDatabase.CreateAsset(mazeSO, localPath);
 
     }
 
-    private void LoadMazeFromScriptableObject(ScriptableObject givenMazeSO)
-    { 
-        
+    private void LoadMazeFromScriptableObject(MazeSO givenMazeSO)
+    {
+        mazePrinter.PrintMaze(givenMazeSO.mazeCells);
     }
 
 
